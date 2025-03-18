@@ -288,3 +288,9 @@ echo "deb [signed-by=/etc/apt/trusted.gpg.d/vitexsoftware.gpg]  https://repo.vit
 sudo apt update
 sudo apt install raiffeisenbank-statement-tools
 ```
+
+See Also
+--------
+
+* [fiobank-statement-tools](https://github.com/Spoje-NET/fiobank-statement-tools)
+* [csas-statement-tools](https://github.com/VitexSoftware/csas-statement-tools)
