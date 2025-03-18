@@ -37,10 +37,14 @@
             "required": false
         },
         "STATEMENT_LINE": {
-            "type": "text",
-            "description": "Statement line can be MAIN or ADDITIONAL",
-            "defval": "ADDITIONAL",
-            "required": false
+            "type": "select",
+            "description": "Bank Statement line",
+	    "defval": "ADDITIONAL",
+            "hint": "MAIN",
+            "options": {
+                "MAIN": "Main statement line",
+                "ADDITIONAL": "Additional statement line" 
+            }
         },
         "ACCOUNT_CURRENCY": {
             "type": "text",
