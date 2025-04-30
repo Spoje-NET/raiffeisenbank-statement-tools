@@ -28,10 +28,10 @@ Shared::init(['CERT_FILE', 'CERT_PASS', 'XIBMCLIENTID', 'ACCOUNT_NUMBER'], \arra
 $destination = \array_key_exists('output', $options) ? $options['output'] : Shared::cfg('RESULT_FILE', 'php://stdout');
 
 $engine = new Statementor(Shared::cfg('ACCOUNT_NUMBER'));
+
 if (Shared::cfg('STATEMENT_LINE')) {
     $engine->setStatementLine(Shared::cfg('STATEMENT_LINE'));
 }
-
 
 if (ApiClient::checkCertificatePresence(Shared::cfg('CERT_FILE'), true) === false) {
     $engine->addStatusMessage(sprintf(_('Certificate file %s problem'), Shared::cfg('CERT_FILE')), 'error');
