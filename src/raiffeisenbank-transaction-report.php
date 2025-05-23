@@ -50,7 +50,7 @@ try {
     $exitcode = 0;
     $statements = $engine->getStatements(Shared::cfg('ACCOUNT_CURRENCY', 'CZK'), Shared::cfg('STATEMENT_LINE', 'ADDITIONAL'));
 } catch (\VitexSoftware\Raiffeisenbank\ApiException $exc) {
-    $status = $exc->getCode().': error';
+    $status = $exc->getMessage();
     $exitcode = (int) $exc->getCode();
 }
 
@@ -70,22 +70,26 @@ $payments = [
 
 if (empty($statements) === false) {
     $payments['status'] = 'statement '.$statements[0]->statementId;
+    try {
+        foreach ($engine->download(sys_get_temp_dir(), $statements, 'xml') as $statement => $xmlFile) {
+            // ISO 20022 XML to transaction array
+            $statementArray = json_decode(json_encode(simplexml_load_file($xmlFile)), true);
 
-    foreach ($engine->download(sys_get_temp_dir(), $statements, 'xml') as $statement => $xmlFile) {
-        // ISO 20022 XML to transaction array
-        $statementArray = json_decode(json_encode(simplexml_load_file($xmlFile)), true);
+            $payments['iban'] = $statementArray['BkToCstmrStmt']['Stmt']['Acct']['Id']['IBAN'];
 
-        $payments['iban'] = $statementArray['BkToCstmrStmt']['Stmt']['Acct']['Id']['IBAN'];
+            $entries = (\array_key_exists('Ntry', $statementArray['BkToCstmrStmt']['Stmt']) ? (array_keys($statementArray['BkToCstmrStmt']['Stmt']['Ntry'])[0] === 0 ? $statementArray['BkToCstmrStmt']['Stmt']['Ntry'] : [$statementArray['BkToCstmrStmt']['Stmt']['Ntry']]) : []);
 
-        $entries = (\array_key_exists('Ntry', $statementArray['BkToCstmrStmt']['Stmt']) ? (array_keys($statementArray['BkToCstmrStmt']['Stmt']['Ntry'])[0] === 0 ? $statementArray['BkToCstmrStmt']['Stmt']['Ntry'] : [$statementArray['BkToCstmrStmt']['Stmt']['Ntry']]) : []);
+            foreach ($entries as $payment) {
+                $payments[$payment['CdtDbtInd'] === 'CRDT' ? 'in' : 'out'][$payment['BookgDt']['DtTm']] = $payment['Amt'];
+                $payments[$payment['CdtDbtInd'] === 'CRDT' ? 'in_sum_total' : 'out_sum_total'] += (float) $payment['Amt'];
+                ++$payments[$payment['CdtDbtInd'] === 'CRDT' ? 'in_total' : 'out_total'];
+            }
 
-        foreach ($entries as $payment) {
-            $payments[$payment['CdtDbtInd'] === 'CRDT' ? 'in' : 'out'][$payment['BookgDt']['DtTm']] = $payment['Amt'];
-            $payments[$payment['CdtDbtInd'] === 'CRDT' ? 'in_sum_total' : 'out_sum_total'] += (float) $payment['Amt'];
-            ++$payments[$payment['CdtDbtInd'] === 'CRDT' ? 'in_total' : 'out_total'];
+            unlink($xmlFile);
         }
-
-        unlink($xmlFile);
+    } catch (\VitexSoftware\Raiffeisenbank\ApiException $exc) {
+        $exitcode = (int) $exc->getCode();
+        $payments['status'] = $exc->getMessage();
     }
 } else {
     if ($exitcode === 0) {
