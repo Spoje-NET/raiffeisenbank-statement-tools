@@ -1,8 +1,9 @@
-raiffeisenbank-statement-tools (1.3.1) UNRELEASED; urgency=medium
+raiffeisenbank-statement-tools (1.3.2) UNRELEASED; urgency=medium
 
   * 0 phpstan issues
+  * STATEMENT_SCOPE usesd
 
- -- vitex <info@vitexsoftware.cz>  Sun, 01 Dec 2024 06:21:53 +0100
+ -- vitex <info@vitexsoftware.cz>  Sat, 31 May 2025 01:35:13 +0200
 
 raiffeisenbank-statement-tools (1.3.0) unstable; urgency=medium
 

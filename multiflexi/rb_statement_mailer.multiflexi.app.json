@@ -30,7 +30,7 @@
             "defval": "",
             "required": true
         },
-        "IMPORT_SCOPE": {
+        "STATEMENT_SCOPE": {
             "type": "text",
             "description": "Time scope of transactions downloaded",
             "defval": "last_month",

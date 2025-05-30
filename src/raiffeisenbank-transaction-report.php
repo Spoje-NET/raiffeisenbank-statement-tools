@@ -42,7 +42,7 @@ if (ApiClient::checkCertificatePresence(Shared::cfg('CERT_FILE'), true) === fals
 $engine->setScope(Shared::cfg('REPORT_SCOPE', 'yesterday'));
 
 if (Shared::cfg('APP_DEBUG', false)) {
-    $engine->logBanner($engine->get);
+    $engine->logBanner();
 }
 
 try {
@@ -69,7 +69,8 @@ $payments = [
 ];
 
 if (empty($statements) === false) {
-    $payments['status'] = 'statement '.$statements[0]->statementId;
+    $payments['status'] = 'statement '.$statements[0]['statementId'];
+
     try {
         foreach ($engine->download(sys_get_temp_dir(), $statements, 'xml') as $statement => $xmlFile) {
             // ISO 20022 XML to transaction array

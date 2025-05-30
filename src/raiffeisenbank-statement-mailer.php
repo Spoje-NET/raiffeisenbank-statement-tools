@@ -32,7 +32,7 @@ if (\array_key_exists(1, $argv) && $argv[1] === '-h') {
 
 Shared::init(['CERT_FILE', 'CERT_PASS', 'XIBMCLIENTID', 'ACCOUNT_NUMBER'], \array_key_exists(3, $argv) ? $argv[3] : '../.env');
 $engine = new Statementor(Shared::cfg('ACCOUNT_NUMBER'));
-$engine->setScope(Shared::cfg('IMPORT_SCOPE', 'yesterday'));
+$engine->setScope(Shared::cfg('STATEMENT_SCOPE', 'yesterday'));
 
 if (Shared::cfg('APP_DEBUG', false)) {
     $engine->logBanner();

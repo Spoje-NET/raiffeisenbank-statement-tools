@@ -14,14 +14,14 @@
         "src/raiffeisenbank-statement-mailer.php"
     ],
     "require": {
-        "vitexsoftware/rbczpremiumapi": "^1.3"
+        "vitexsoftware/rbczpremiumapi": "^1.4"
     },
     "require-dev": {
         "phpunit/phpunit": "*",
         "phpstan/phpstan": "*",
-        "friendsofphp/php-cs-fixer": "^3.65",
-        "ergebnis/composer-normalize": "^2.43",
-        "ergebnis/php-cs-fixer-config": "^6.34"
+        "friendsofphp/php-cs-fixer": "^3.75",
+        "ergebnis/composer-normalize": "^2.47",
+        "ergebnis/php-cs-fixer-config": "^6.46"
     },
     "config": {
         "allow-plugins": {
@@ -30,4 +30,3 @@
     }
 
 }
-

@@ -43,7 +43,7 @@ if (ApiClient::checkCertificatePresence(Shared::cfg('CERT_FILE'), true) === fals
     exit(1);
 }
 
-$engine->setScope(Shared::cfg('STATEMENT_IMPORT_SCOPE', 'last_month'));
+$engine->setScope(Shared::cfg('STATEMENT_SCOPE', 'last_month'));
 
 try {
     $status = 'ok';

@@ -8,7 +8,7 @@ Homepage: https://github.com/VitexSoftware/raiffeisenbank-statement-tools
 
 Package: raiffeisenbank-statement-tools
 Architecture: all
-Depends: ${misc:Depends}, php-vitexsoftware-rbczpremiumapi (>=1.2)
+Depends: ${misc:Depends}, php-vitexsoftware-rbczpremiumapi (>=1.4)
 Suggests: multiflexi
 Replaces: raiffeisenbank-statement-downloader
 Description: Download your Raiffeisen Bank Statements
