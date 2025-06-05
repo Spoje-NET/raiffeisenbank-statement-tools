@@ -37,7 +37,7 @@
             "required": false
         },
         "STATEMENT_LINE": {
-            "type": "select",
+            "type": "set",
             "description": "Bank Statement line",
 	    "defval": "ADDITIONAL",
             "hint": "MAIN",
