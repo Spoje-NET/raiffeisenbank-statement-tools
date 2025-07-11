@@ -47,8 +47,7 @@ if (ApiClient::checkCertificatePresence(Shared::cfg('CERT_FILE')) === false) {
     $xRequestId = (string) time();
 
     try {
-        $balance = $apiInstance->getBalance($xRequestId, Shared::cfg('ACCOUNT_NUMBER'));
-        $written = file_put_contents($destination, json_encode($balance, Shared::cfg('DEBUG') ? \JSON_PRETTY_PRINT : 0));
+        $report = $apiInstance->getBalance($xRequestId, Shared::cfg('ACCOUNT_NUMBER'));
     } catch (\VitexSoftware\Raiffeisenbank\ApiException $exc) {
         $report['mesage'] = $exc->getMessage();
 
@@ -66,6 +65,7 @@ if (ApiClient::checkCertificatePresence(Shared::cfg('CERT_FILE')) === false) {
     }
 }
 
+$written = file_put_contents($destination, json_encode($report, Shared::cfg('DEBUG') ? \JSON_PRETTY_PRINT : 0));
 $engine->addStatusMessage(sprintf(_('Saving result to %s'), $destination), $written ? 'success' : 'error');
 
 exit($exitcode ?: ($written ? 0 : 2));

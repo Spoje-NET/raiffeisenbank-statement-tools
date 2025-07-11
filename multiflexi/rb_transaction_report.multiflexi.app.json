@@ -70,6 +70,12 @@
             "defval": "Raiff-Balance-{ACCOUNT_NUMBER}",
             "required": false
         },
+        "APP_DEBUG": {
+            "type": "bool",
+            "description": "Show debug messages",
+            "defval": "False",
+            "required": true
+        },
         "EASE_LOGGER": {
             "type": "string",
             "description": "write log messages using",
