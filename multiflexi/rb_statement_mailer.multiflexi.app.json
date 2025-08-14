@@ -7,10 +7,10 @@
     "cmdparams": "",
     "deploy": "apt install raiffeisenbank-statement-tools",
     "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
-    "requirements": "RaiffeisenBank",
-    "ociimage": "",
-    "uuid": "b50fe50c-4dab-419e-815e-dcd95bbeb29e",
-    "topics": "RaiffeisenBank,Mail,Statements",
+        "requirements": ["RaiffeisenBank"],
+        "ociimage": "",
+        "uuid": "b50fe50c-4dab-419e-815e-dcd95bbeb29e",
+        "topics": ["RaiffeisenBank","Mail","Statements"],
     "environment": {
         "ACCOUNT_NUMBER": {
             "type": "text",
