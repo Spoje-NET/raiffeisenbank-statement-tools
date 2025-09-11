@@ -47,21 +47,43 @@ if (ApiClient::checkCertificatePresence(Shared::cfg('CERT_FILE')) === false) {
     $xRequestId = (string) time();
 
     try {
-        $report = $apiInstance->getBalance($xRequestId, Shared::cfg('ACCOUNT_NUMBER'));
+            $apiResult = $apiInstance->getBalance($xRequestId, Shared::cfg('ACCOUNT_NUMBER'));
+            $report = [
+                'status' => 'success',
+                'timestamp' => date('c'),
+                'message' => _('Balance retrieved successfully'),
+                'artifacts' => [
+                    'balance' => [json_encode($apiResult)]
+                ],
+                'metrics' => [
+                    'balance' => $apiResult['balance'] ?? null
+                ]
+            ];
     } catch (\VitexSoftware\Raiffeisenbank\ApiException $exc) {
-        $report['mesage'] = $exc->getMessage();
-
-        $exitcode = $exc->getCode();
-
-        if (!$exitcode) {
-            if (preg_match('/cURL error ([0-9]*):/', $report['mesage'], $codeRaw)) {
-                $exitcode = (int) $codeRaw[1];
+            $report = [
+                'status' => 'error',
+                'timestamp' => date('c'),
+                'message' => $exc->getMessage(),
+                'metrics' => [
+                    'error_code' => $exc->getCode()
+                ]
+            ];
+            $exitcode = $exc->getCode();
+            if (!$exitcode) {
+                if (preg_match('/cURL error ([0-9]*):/', $report['message'], $codeRaw)) {
+                    $exitcode = (int) $codeRaw[1];
+                }
             }
-        }
     } catch (\InvalidArgumentException $exc) {
-        $report['mesage'] = $exc->getMessage();
-
-        $exitcode = 4;
+            $report = [
+                'status' => 'error',
+                'timestamp' => date('c'),
+                'message' => $exc->getMessage(),
+                'metrics' => [
+                    'error_code' => 4
+                ]
+            ];
+            $exitcode = 4;
     }
 }
 

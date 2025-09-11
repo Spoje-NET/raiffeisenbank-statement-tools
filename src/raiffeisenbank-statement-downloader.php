@@ -55,13 +55,34 @@ try {
 }
 
 if (empty($statements) === false) {
-    $engine->download(
+    $downloaded = $engine->download(
         \array_key_exists(1, $argv) ? $argv[1] : Shared::cfg('STATEMENTS_DIR', getcwd()),
         $statements,
         \array_key_exists(2, $argv) ? $argv[2] : Shared::cfg('STATEMENT_FORMAT', 'pdf'),
     );
+    $report = [
+        'status' => 'success',
+        'timestamp' => date('c'),
+        'message' => _('Statements downloaded successfully'),
+        'artifacts' => [
+            'statements' => $downloaded
+        ],
+        'metrics' => [
+            'count' => is_array($downloaded) ? count($downloaded) : 0
+        ]
+    ];
 } else {
-    echo "no statements returned\n";
+    $report = [
+        'status' => 'error',
+        'timestamp' => date('c'),
+        'message' => _('No statements returned'),
+        'metrics' => [
+            'count' => 0
+        ]
+    ];
 }
 
-exit($exitcode);
+$written = file_put_contents('statement_report.json', json_encode($report, Shared::cfg('DEBUG') ? \JSON_PRETTY_PRINT : 0));
+$engine->addStatusMessage(sprintf(_('Saving result to %s'), 'statement_report.json'), $written ? 'success' : 'error');
+
+exit($exitcode ?: ($written ? 0 : 2));

@@ -12,7 +12,7 @@ When writing code, always include a docblock for functions and classes, describi
 
 When writing tests, use PHPUnit and follow the PSR-12 coding standard.
 
-When writing documentation, use reStructuredText (reST) format.
+When writing documentation, use MarkDown format.
 
 When writing commit messages, use the imperative mood and keep them concise.
 
@@ -42,3 +42,6 @@ When create new class or update existing class, always create or update its phpu
 
 All files in the multiflexi/*.app.json directory must conform to the schema available at: https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.app.schema.json
 
+All reports produced by scripts must comply with the schema available at: https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.report.schema.json
+
+Change directory to src before running any scripts.

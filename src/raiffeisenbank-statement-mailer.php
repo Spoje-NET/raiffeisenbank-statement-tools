@@ -113,10 +113,32 @@ if (empty($statements) === false) {
 
             $mailer->send();
         } catch (\Exception $exc) {
+            }
+            $report = [
+                'status' => 'success',
+                'timestamp' => date('c'),
+                'message' => _('Statements mailed successfully'),
+                'artifacts' => [
+                    'statements' => $downloaded
+                ],
+                'metrics' => [
+                    'count' => is_array($downloaded) ? count($downloaded) : 0
+                ]
+            ];
+            $written = file_put_contents('statement_mail_report.json', json_encode($report, Shared::cfg('DEBUG') ? \JSON_PRETTY_PRINT : 0));
+            $engine->addStatusMessage(sprintf(_('Saving result to %s'), 'statement_mail_report.json'), $written ? 'success' : 'error');
         }
+    } else {
+        $report = [
+            'status' => 'error',
+            'timestamp' => date('c'),
+            'message' => _('No statements returned'),
+            'metrics' => [
+                'count' => 0
+            ]
+        ];
+        $written = file_put_contents('statement_mail_report.json', json_encode($report, Shared::cfg('DEBUG') ? \JSON_PRETTY_PRINT : 0));
+        $engine->addStatusMessage(sprintf(_('Saving result to %s'), 'statement_mail_report.json'), $written ? 'success' : 'error');
     }
-} else {
-    $engine->addStatusMessage('no statements returned');
-}
 
 exit($exitcode);
