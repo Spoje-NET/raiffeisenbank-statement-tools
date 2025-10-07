@@ -61,7 +61,7 @@
             "required": false
         },
         "STATEMENTS_DIR": {
-            "type": "directory",
+            "type": "string",
             "description": "Time scope of transactions downloaded",
             "defval": "./",
             "required": false

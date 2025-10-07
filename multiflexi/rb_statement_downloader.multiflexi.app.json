@@ -37,7 +37,7 @@
             "required": true
         },
         "STATEMENTS_DIR": {
-            "type": "text",
+            "type": "string",
             "description": "Time scope of transactions downloaded",
             "defval": "auto",
             "required": true
