@@ -16,8 +16,6 @@
         "Downloader"
     ],
     "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
-    "image": "",
-    "ociimage": "",
     "executable": "raiffeisenbank-statement-downloader",
     "environment": {
         "ACCOUNT_NUMBER": {

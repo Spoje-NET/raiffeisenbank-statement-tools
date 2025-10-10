@@ -17,8 +17,6 @@
         "Json"
     ],
     "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
-    "image": "",
-    "ociimage": "",
     "executable": "raiffeisenbank-balance",
     "environment": {
         "ACCOUNT_NUMBER": {

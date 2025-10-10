@@ -19,8 +19,6 @@
         "Report"
     ],
     "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
-    "image": "",
-    "ociimage": "",
     "executable": "raiffeisenbank-transaction-report",
     "environment": {
         "ACCOUNT_NUMBER": {

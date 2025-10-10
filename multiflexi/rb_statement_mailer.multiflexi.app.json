@@ -16,8 +16,6 @@
         "Statements"
     ],
     "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
-    "image": "",
-    "ociimage": "",
     "executable": "raiffeisenbank-statement-mailer",
     "environment": {
         "ACCOUNT_NUMBER": {
