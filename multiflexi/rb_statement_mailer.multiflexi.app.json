@@ -1,95 +1,154 @@
 {
-    "image": "",
-    "name": "RB statement mailer",
-    "description": "Download Raiffeisenbank statements in given format and send it via email",
-    "executable": "raiffeisenbank-statement-mailer",
-    "setup": "",
-    "cmdparams": "",
-    "deploy": "apt install raiffeisenbank-statement-tools",
+    "$schema": "https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.app.schema.json",
+    "schemaVersion": "3.0.0",
+    "uuid": "b50fe50c-4dab-419e-815e-dcd95bbeb29e",
+    "name": {
+        "en": "RB statement mailer",
+        "cs": "RB statement mailer"
+    },
+    "description": {
+        "en": "Download Raiffeisenbank statements in given format and send it via email",
+        "cs": "Download Raiffeisenbank statements in given format and odeslat it via ee-mail"
+    },
+    "tags": [
+        "RaiffeisenBank",
+        "Mail",
+        "Statements"
+    ],
     "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
-        "requirements": ["RaiffeisenBank"],
-        "ociimage": "",
-        "uuid": "b50fe50c-4dab-419e-815e-dcd95bbeb29e",
-        "topics": ["RaiffeisenBank","Mail","Statements"],
+    "image": "",
+    "ociimage": "",
+    "executable": "raiffeisenbank-statement-mailer",
     "environment": {
         "ACCOUNT_NUMBER": {
             "type": "text",
-            "description": "Bank Account Number",
+            "description": {
+                "en": "Bank Account Number",
+                "cs": "Bank Account Number"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "CERT_PASS": {
             "type": "password",
-            "description": "Certificate password",
+            "description": {
+                "en": "Certificate password",
+                "cs": "Certificate password"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "CERT_FILE": {
             "type": "string",
-            "description": "Path to RB Certificate file",
+            "description": {
+                "en": "Path to RB Certificate file",
+                "cs": "Path to RB Certificate file"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "STATEMENT_SCOPE": {
             "type": "text",
-            "description": "Time scope of transactions downloaded",
+            "description": {
+                "en": "Time scope of transactions downloaded",
+                "cs": "Time scope of transactions downloaded"
+            },
             "defval": "last_month",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "XIBMCLIENTID": {
             "type": "text",
-            "description": "ClientID",
+            "description": {
+                "en": "ClientID",
+                "cs": "ClientID"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "STATEMENT_FORMAT": {
             "type": "text",
-            "description": "pdf or xml",
+            "description": {
+                "en": "pdf or xml",
+                "cs": "pdf or xml"
+            },
             "defval": "pdf",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "STATEMENT_LINE": {
             "type": "text",
-            "description": "Statement line can be MAIN or ADDITIONAL",
+            "description": {
+                "en": "Statement line can be MAIN or ADDITIONAL",
+                "cs": "Statement line can be MAIN or ADDITIONAL"
+            },
             "defval": "MAIN",
-            "required": false
+            "required": false,
+            "category": "Other"
         },
         "ACCOUNT_CURRENCY": {
             "type": "text",
-            "description": "for multicurrency accounts please specify one",
+            "description": {
+                "en": "for multicurrency accounts please specify one",
+                "cs": "for multicurrency accounts please specify one"
+            },
             "defval": "CZK",
-            "required": false
+            "required": false,
+            "category": "Other"
         },
         "STATEMENTS_DIR": {
             "type": "string",
-            "description": "Time scope of transactions downloaded",
+            "description": {
+                "en": "Time scope of transactions downloaded",
+                "cs": "Time scope of transactions downloaded"
+            },
             "defval": "./",
-            "required": false
+            "required": false,
+            "category": "Other"
         },
         "STATEMENTS_TO": {
             "type": "email",
-            "description": "Recipient's email address",
+            "description": {
+                "en": "Recipient's email address",
+                "cs": "Recipient's email address"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "STATEMENTS_FROM": {
             "type": "email",
-            "description": "Sender's email address",
+            "description": {
+                "en": "Sender's email address",
+                "cs": "Odeslater's ee-mail address"
+            },
             "defval": "",
-            "required": false
+            "required": false,
+            "category": "Other"
         },
         "STATEMENTS_REPLYTO": {
             "type": "email",
-            "description": "Reply-To email address",
+            "description": {
+                "en": "Reply-To email address",
+                "cs": "Reply-To email address"
+            },
             "defval": "",
-            "required": false
+            "required": false,
+            "category": "Other"
         },
         "EASE_LOGGER": {
             "type": "string",
-            "description": "write log messages using",
+            "description": {
+                "en": "write log messages using",
+                "cs": "write log messages using"
+            },
             "defval": "console|syslog",
-            "required": false
+            "required": false,
+            "category": "Behavior"
         }
-    },
-    "multiflexi": "1.10.2.0"
+    }
 }

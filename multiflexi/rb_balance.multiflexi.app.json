@@ -1,59 +1,95 @@
 {
-    "image": "",
-    "name": "RB Balance",
-    "description": "Raiffeisenbank Balance check",
-    "executable": "raiffeisenbank-balance",
-    "setup": "",
-    "cmdparams": "",
-    "deploy": "apt install raiffeisenbank-statement-tools",
-    "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
-        "requirements": ["RaiffeisenBank"],
-        "ociimage": "",
-        "topics": ["RaiffeisenBank","Balance","Check","Json"],
+    "$schema": "https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.app.schema.json",
+    "schemaVersion": "3.0.0",
     "uuid": "491e066a-a47b-4266-99b9-ea21032fa6e2",
+    "name": {
+        "en": "RB Balance",
+        "cs": "RB Balance"
+    },
+    "description": {
+        "en": "Raiffeisenbank Balance check",
+        "cs": "Raiffeisenbank Balance check"
+    },
+    "tags": [
+        "RaiffeisenBank",
+        "Balance",
+        "Check",
+        "Json"
+    ],
+    "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
+    "image": "",
+    "ociimage": "",
+    "executable": "raiffeisenbank-balance",
     "environment": {
         "ACCOUNT_NUMBER": {
             "type": "text",
-            "description": "Bank Account Number",
+            "description": {
+                "en": "Bank Account Number",
+                "cs": "Bank Account Number"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "CERT_PASS": {
             "type": "password",
-            "description": "Certificate password",
+            "description": {
+                "en": "Certificate password",
+                "cs": "Certificate password"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "CERT_FILE": {
             "type": "string",
-            "description": "Path to RB Certificate file",
+            "description": {
+                "en": "Path to RB Certificate file",
+                "cs": "Path to RB Certificate file"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "XIBMCLIENTID": {
             "type": "text",
-            "description": "ClientID",
+            "description": {
+                "en": "ClientID",
+                "cs": "ClientID"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "RESULT_FILE": {
             "type": "string",
-            "description": "write output json data to",
+            "description": {
+                "en": "write output json data to",
+                "cs": "write output json data to"
+            },
             "defval": "account_balance_{ACCOUNT_NUMBER}.json",
-            "required": false
+            "required": false,
+            "category": "Other"
         },
         "ZABBIX_KEY": {
             "type": "string",
-            "description": "Default name for Zabbix Item key name",
+            "description": {
+                "en": "Default name for Zabbix Item key name",
+                "cs": "Default name for Zabbix Item key name"
+            },
             "defval": "Raiff-Balance-{ACCOUNT_NUMBER}",
-            "required": false
+            "required": false,
+            "category": "Other"
         },
         "EASE_LOGGER": {
             "type": "string",
-            "description": "write log messages using",
+            "description": {
+                "en": "write log messages using",
+                "cs": "write log messages using"
+            },
             "defval": "console|syslog",
-            "required": false
+            "required": false,
+            "category": "Behavior"
         }
-    },
-    "multiflexi": "1.10.2.0"
+    }
 }

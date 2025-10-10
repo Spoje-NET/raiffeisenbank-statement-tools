@@ -1,87 +1,144 @@
 {
-    "image": "",
-    "name": "RB transaction report",
-    "description": "Raiffeisenbank transaction report",
-    "executable": "raiffeisenbank-transaction-report",
-    "setup": "",
-    "cmdparams": "",
-    "deploy": "apt install raiffeisenbank-statement-tools",
+    "$schema": "https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.app.schema.json",
+    "schemaVersion": "3.0.0",
+    "uuid": "97f30cf9-2d9e-4d91-ad65-9bdd8b4663cd",
+    "name": {
+        "en": "RB transaction report",
+        "cs": "RB transaction report"
+    },
+    "description": {
+        "en": "Raiffeisenbank transaction report",
+        "cs": "Raiffeisenbank transakce report"
+    },
+    "tags": [
+        "Bank",
+        "RaiffeisenBank",
+        "Transactions",
+        "Check",
+        "Json",
+        "Report"
+    ],
     "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
-        "requirements": ["RaiffeisenBank"],
-        "ociimage": "",
-        "uuid": "97f30cf9-2d9e-4d91-ad65-9bdd8b4663cd",
-        "topics": ["Bank","RaiffeisenBank","Transactions","Check","Json","Report"],
+    "image": "",
+    "ociimage": "",
+    "executable": "raiffeisenbank-transaction-report",
     "environment": {
         "ACCOUNT_NUMBER": {
             "type": "text",
-            "description": "Bank Account Number",
+            "description": {
+                "en": "Bank Account Number",
+                "cs": "Bank Account Number"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "CERT_PASS": {
             "type": "password",
-            "description": "Certificate password",
+            "description": {
+                "en": "Certificate password",
+                "cs": "Certificate password"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "CERT_FILE": {
             "type": "string",
-            "description": "Path to RB Certificate file",
+            "description": {
+                "en": "Path to RB Certificate file",
+                "cs": "Path to RB Certificate file"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "REPORT_SCOPE": {
             "type": "text",
-            "description": "Time scope of transactions downloaded",
+            "description": {
+                "en": "Time scope of transactions downloaded",
+                "cs": "Time scope of transactions downloaded"
+            },
             "defval": "last_month",
-            "required": false
+            "required": false,
+            "category": "Other"
         },
         "STATEMENT_LINE": {
             "type": "set",
-            "description": "Bank Statement line",
-	        "defval": "ADDITIONAL",
-            "hint": "MAIN",
+            "description": {
+                "en": "Bank Statement line",
+                "cs": "Bank Statement line"
+            },
+            "defval": "ADDITIONAL",
+            "hint": {
+                "en": "MAIN",
+                "cs": "MAIN"
+            },
             "options": {
                 "MAIN": "Main statement line",
-                "ADDITIONAL": "Additional statement line" 
-            }
+                "ADDITIONAL": "Additional statement line"
+            },
+            "category": "Other"
         },
         "ACCOUNT_CURRENCY": {
             "type": "text",
-            "description": "for multicurrency accounts please specify one",
+            "description": {
+                "en": "for multicurrency accounts please specify one",
+                "cs": "for multicurrency accounts please specify one"
+            },
             "defval": "CZK",
-            "required": false
+            "required": false,
+            "category": "Other"
         },
         "XIBMCLIENTID": {
             "type": "text",
-            "description": "ClientID",
+            "description": {
+                "en": "ClientID",
+                "cs": "ClientID"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "RESULT_FILE": {
             "type": "string",
-            "description": "write output json data to",
+            "description": {
+                "en": "write output json data to",
+                "cs": "write output json data to"
+            },
             "defval": "transaction_report_{ACCOUNT_NUMBER}.json",
-            "required": false
+            "required": false,
+            "category": "Other"
         },
         "ZABBIX_KEY": {
             "type": "string",
-            "description": "Default name for Zabbix Item key name",
+            "description": {
+                "en": "Default name for Zabbix Item key name",
+                "cs": "Default name for Zabbix Item key name"
+            },
             "defval": "Raiff-Balance-{ACCOUNT_NUMBER}",
-            "required": false
+            "required": false,
+            "category": "Other"
         },
         "APP_DEBUG": {
             "type": "bool",
-            "description": "Show debug messages",
+            "description": {
+                "en": "Show debug messages",
+                "cs": "Show debug messages"
+            },
             "defval": "False",
-            "required": true
+            "required": true,
+            "category": "Behavior"
         },
         "EASE_LOGGER": {
             "type": "string",
-            "description": "write log messages using",
+            "description": {
+                "en": "write log messages using",
+                "cs": "write log messages using"
+            },
             "defval": "console|syslog",
-            "required": false
+            "required": false,
+            "category": "Behavior"
         }
-    },
-    "multiflexi": "1.10.2.0"
+    }
 }

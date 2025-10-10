@@ -1,77 +1,124 @@
 {
-    "image": "",
-    "name": "RB statement downloader",
-    "description": "Download Raiffeisenbank statements in given format",
-    "executable": "raiffeisenbank-statement-downloader",
-    "setup": "",
-    "cmdparams": "",
-    "deploy": "apt install raiffeisenbank-statement-tools",
-    "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
-        "requirements": ["RaiffeisenBank"],
-        "ociimage": "",
-        "topics": ["RaiffeisenBank","Statements","Downloader"],
+    "$schema": "https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.app.schema.json",
+    "schemaVersion": "3.0.0",
     "uuid": "b6add5c1-67a5-4332-8fe2-12bff71062e6",
+    "name": {
+        "en": "RB statement downloader",
+        "cs": "RB statement downloader"
+    },
+    "description": {
+        "en": "Download Raiffeisenbank statements in given format",
+        "cs": "Download Raiffeisenbank statements in given format"
+    },
+    "tags": [
+        "RaiffeisenBank",
+        "Statements",
+        "Downloader"
+    ],
+    "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
+    "image": "",
+    "ociimage": "",
+    "executable": "raiffeisenbank-statement-downloader",
     "environment": {
         "ACCOUNT_NUMBER": {
             "type": "text",
-            "description": "Bank Account Number",
+            "description": {
+                "en": "Bank Account Number",
+                "cs": "Bank Account Number"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "CERT_PASS": {
             "type": "password",
-            "description": "Certificate password",
+            "description": {
+                "en": "Certificate password",
+                "cs": "Certificate password"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "CERT_FILE": {
             "type": "string",
-            "description": "Path to RB Certificate file",
+            "description": {
+                "en": "Path to RB Certificate file",
+                "cs": "Path to RB Certificate file"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "STATEMENT_SCOPE": {
             "type": "text",
-            "description": "Time scope of transactions downloaded",
+            "description": {
+                "en": "Time scope of transactions downloaded",
+                "cs": "Time scope of transactions downloaded"
+            },
             "defval": "auto",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "STATEMENTS_DIR": {
             "type": "string",
-            "description": "Time scope of transactions downloaded",
+            "description": {
+                "en": "Time scope of transactions downloaded",
+                "cs": "Time scope of transactions downloaded"
+            },
             "defval": "auto",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "STATEMENT_FORMAT": {
             "type": "text",
-            "description": "pdf or xml",
+            "description": {
+                "en": "pdf or xml",
+                "cs": "pdf or xml"
+            },
             "defval": "pdf",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "STATEMENT_LINE": {
             "type": "text",
-            "description": "Statement line can be MAIN or ADDITIONAL",
+            "description": {
+                "en": "Statement line can be MAIN or ADDITIONAL",
+                "cs": "Statement line can be MAIN or ADDITIONAL"
+            },
             "defval": "MAIN",
-            "required": false
+            "required": false,
+            "category": "Other"
         },
         "ACCOUNT_CURRENCY": {
             "type": "text",
-            "description": "for multicurrency accounts please specify one",
+            "description": {
+                "en": "for multicurrency accounts please specify one",
+                "cs": "for multicurrency accounts please specify one"
+            },
             "defval": "CZK",
-            "required": false
+            "required": false,
+            "category": "Other"
         },
         "XIBMCLIENTID": {
             "type": "text",
-            "description": "ClientID",
+            "description": {
+                "en": "ClientID",
+                "cs": "ClientID"
+            },
             "defval": "",
-            "required": true
+            "required": true,
+            "category": "Other"
         },
         "EASE_LOGGER": {
             "type": "string",
-            "description": "write log messages using",
+            "description": {
+                "en": "write log messages using",
+                "cs": "write log messages using"
+            },
             "defval": "console|syslog",
-            "required": false
+            "required": false,
+            "category": "Behavior"
         }
-    },
-    "multiflexi": "1.10.2.0"
+    }
 }
