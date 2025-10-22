@@ -27,6 +27,10 @@
         "allow-plugins": {
             "ergebnis/composer-normalize": true
         }
+    },
+    "scripts": {
+        "test": "phpunit --testdox tests",
+        "lint": "php-cs-fixer fix --dry-run --diff",
+        "fix": "php-cs-fixer fix"
     }
-
 }

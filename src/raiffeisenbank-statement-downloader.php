@@ -65,11 +65,11 @@ if (empty($statements) === false) {
         'timestamp' => date('c'),
         'message' => _('Statements downloaded successfully'),
         'artifacts' => [
-            'statements' => $downloaded
+            'statements' => \is_array($downloaded) ? array_values($downloaded) : [],
         ],
         'metrics' => [
-            'count' => is_array($downloaded) ? count($downloaded) : 0
-        ]
+            'count' => \is_array($downloaded) ? \count($downloaded) : 0,
+        ],
     ];
 } else {
     $report = [
@@ -77,12 +77,13 @@ if (empty($statements) === false) {
         'timestamp' => date('c'),
         'message' => _('No statements returned'),
         'metrics' => [
-            'count' => 0
-        ]
+            'count' => 0,
+        ],
     ];
 }
 
-$written = file_put_contents('statement_report.json', json_encode($report, Shared::cfg('DEBUG') ? \JSON_PRETTY_PRINT : 0));
-$engine->addStatusMessage(sprintf(_('Saving result to %s'), 'statement_report.json'), $written ? 'success' : 'error');
+$reportFile = Shared::cfg('REPORT_FILE', 'statement_report.json');
+$written = file_put_contents($reportFile, json_encode($report, Shared::cfg('DEBUG') ? \JSON_PRETTY_PRINT : 0));
+$engine->addStatusMessage(sprintf(_('Saving result to %s'), $reportFile), $written ? 'success' : 'error');
 
 exit($exitcode ?: ($written ? 0 : 2));

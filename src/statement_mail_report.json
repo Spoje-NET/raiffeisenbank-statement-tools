@@ -1,0 +1,13 @@
+{
+    "status": "success",
+    "timestamp": "2025-10-22T10:50:47+00:00",
+    "message": "Statements mailed successfully",
+    "artifacts": {
+        "statements": [
+            "\/tmp\/9_2025_2800061687_1328660_CZK_2025-09-01.pdf"
+        ]
+    },
+    "metrics": {
+        "count": 1
+    }
+}

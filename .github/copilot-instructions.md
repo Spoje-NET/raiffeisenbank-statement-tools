@@ -45,3 +45,17 @@ All files in the multiflexi/*.app.json directory must conform to the schema avai
 All reports produced by scripts must comply with the schema available at: https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.report.schema.json
 
 Change directory to src before running any scripts.
+
+After every single edit to a PHP file, always run `php -l` on the edited file to lint it and ensure code sanity before proceeding further. This is mandatory for all PHP code changes.
+
+When developing or testing this application, always run the main script from the src/ directory:
+
+```bash
+cd src/
+php raiffeisenbank-balance.php
+```
+
+This ensures the relative paths (../vendor/autoload.php and ../.env) work correctly during development.
+
+The application uses relative paths intentionally - they are resolved during Debian packaging via sed commands in debian/rules file for production deployment.
+

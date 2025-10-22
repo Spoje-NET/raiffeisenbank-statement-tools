@@ -52,6 +52,7 @@ try {
 } catch (\VitexSoftware\Raiffeisenbank\ApiException $exc) {
     $status = $exc->getMessage();
     $exitcode = (int) $exc->getCode();
+    $statements = [];
 }
 
 $payments = [
@@ -95,14 +96,10 @@ if (empty($statements) === false) {
 } else {
     if ($exitcode === 0) {
         $payments['status'] = 'no statements returned';
+    } else {
+        $payments['status'] = $status;
     }
 }
-
-$written = file_put_contents($destination, json_encode($payments, Shared::cfg('DEBUG') ? \JSON_PRETTY_PRINT : 0));
-$engine->addStatusMessage(sprintf(_('Saving result to %s'), $destination), $written ? 'success' : 'error');
-
-exit($exitcode ?: ($written ? 0 : 2));
-
 
 // Schema-compliant report
 $report = [
@@ -110,14 +107,21 @@ $report = [
     'timestamp' => date('c'),
     'message' => $payments['status'] ?? ($exitcode === 0 ? _('Report generated successfully') : _('Error occurred during report generation')),
     'artifacts' => [
-        'transactions' => array_merge($payments['in'], $payments['out'])
+        'report' => [$destination !== 'php://stdout' ? $destination : 'stdout'],
     ],
     'metrics' => [
         'in_total' => $payments['in_total'] ?? 0,
         'out_total' => $payments['out_total'] ?? 0,
         'in_sum_total' => $payments['in_sum_total'] ?? 0,
-        'out_sum_total' => $payments['out_sum_total'] ?? 0
-    ]
+        'out_sum_total' => $payments['out_sum_total'] ?? 0,
+        'account' => $payments['account'] ?? '',
+        'iban' => $payments['iban'] ?? '',
+        'from' => $payments['from'] ?? '',
+        'to' => $payments['to'] ?? '',
+    ],
 ];
-$written = file_put_contents('transaction_report.json', json_encode($report, Shared::cfg('DEBUG') ? \JSON_PRETTY_PRINT : 0));
-$engine->addStatusMessage(sprintf(_('Saving schema-compliant report to %s'), 'transaction_report.json'), $written ? 'success' : 'error');
+
+$written = file_put_contents($destination, json_encode($report, Shared::cfg('DEBUG') ? \JSON_PRETTY_PRINT : 0));
+$engine->addStatusMessage(sprintf(_('Saving result to %s'), $destination), $written ? 'success' : 'error');
+
+exit($exitcode ?: ($written ? 0 : 2));

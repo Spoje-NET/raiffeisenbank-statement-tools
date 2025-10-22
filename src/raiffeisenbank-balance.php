@@ -47,43 +47,67 @@ if (ApiClient::checkCertificatePresence(Shared::cfg('CERT_FILE')) === false) {
     $xRequestId = (string) time();
 
     try {
-            $apiResult = $apiInstance->getBalance($xRequestId, Shared::cfg('ACCOUNT_NUMBER'));
-            $report = [
-                'status' => 'success',
-                'timestamp' => date('c'),
-                'message' => _('Balance retrieved successfully'),
-                'artifacts' => [
-                    'balance' => [json_encode($apiResult)]
-                ],
-                'metrics' => [
-                    'balance' => $apiResult['balance'] ?? null
-                ]
-            ];
-    } catch (\VitexSoftware\Raiffeisenbank\ApiException $exc) {
-            $report = [
-                'status' => 'error',
-                'timestamp' => date('c'),
-                'message' => $exc->getMessage(),
-                'metrics' => [
-                    'error_code' => $exc->getCode()
-                ]
-            ];
-            $exitcode = $exc->getCode();
-            if (!$exitcode) {
-                if (preg_match('/cURL error ([0-9]*):/', $report['message'], $codeRaw)) {
-                    $exitcode = (int) $codeRaw[1];
-                }
+        $apiResult = $apiInstance->getBalance($xRequestId, Shared::cfg('ACCOUNT_NUMBER'));
+        
+        // Extract balance values for metrics
+        $metrics = [
+            'account_number' => $apiResult['numberPart2'] ?? '',
+            'bank_code' => $apiResult['bankCode'] ?? '',
+        ];
+        
+        // Add balance metrics for each currency
+        foreach ($apiResult['currencyFolders'] ?? [] as $folder) {
+            $currency = $folder['currency'] ?? 'UNKNOWN';
+            foreach ($folder['balances'] ?? [] as $balance) {
+                $balanceType = $balance['balanceType'] ?? 'UNKNOWN';
+                $key = strtolower($currency . '_' . $balanceType);
+                $metrics[$key] = $balance['value'] ?? 0;
             }
+        }
+        
+        $report = [
+            'status' => 'success',
+            'timestamp' => date('c'),
+            'message' => _('Balance retrieved successfully'),
+            'artifacts' => [
+                'balance' => [$destination !== 'php://stdout' ? $destination : 'stdout'],
+            ],
+            'metrics' => $metrics,
+        ];
+    } catch (\VitexSoftware\Raiffeisenbank\ApiException $exc) {
+        $errorMessage = $exc->getMessage();
+        $responseBody = $exc->getResponseBody();
+
+        // Parse API error response if it's JSON
+        if ($responseBody && ($decoded = json_decode($responseBody, true))) {
+            $errorMessage = $decoded['message'] ?? $errorMessage;
+        }
+
+        $report = [
+            'status' => 'error',
+            'timestamp' => date('c'),
+            'message' => $errorMessage,
+            'metrics' => [
+                'error_code' => $exc->getCode(),
+            ],
+        ];
+        $exitcode = $exc->getCode();
+
+        if (!$exitcode) {
+            if (preg_match('/cURL error ([0-9]*):/', $errorMessage, $codeRaw)) {
+                $exitcode = (int) $codeRaw[1];
+            }
+        }
     } catch (\InvalidArgumentException $exc) {
-            $report = [
-                'status' => 'error',
-                'timestamp' => date('c'),
-                'message' => $exc->getMessage(),
-                'metrics' => [
-                    'error_code' => 4
-                ]
-            ];
-            $exitcode = 4;
+        $report = [
+            'status' => 'error',
+            'timestamp' => date('c'),
+            'message' => $exc->getMessage(),
+            'metrics' => [
+                'error_code' => 4,
+            ],
+        ];
+        $exitcode = 4;
     }
 }
 

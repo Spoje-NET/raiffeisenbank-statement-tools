@@ -1,0 +1,13 @@
+{
+    "status": "success",
+    "timestamp": "2025-10-22T10:50:17+00:00",
+    "message": "Statements downloaded successfully",
+    "artifacts": {
+        "statements": [
+            "\/tmp\/statements\/9_2025_2800061687_1328660_CZK_2025-09-01.xml"
+        ]
+    },
+    "metrics": {
+        "count": 1
+    }
+}

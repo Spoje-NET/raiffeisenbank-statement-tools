@@ -44,8 +44,12 @@ Balance Check
 ![raiffeisenbank-balance](raiffeisenbank-balance.svg?raw=true)
 
 ```shell
-raiffeisenbank-balance [path/to/.env]
+raiffeisenbank-balance --output="/tmp/balance.json" [--environment="path/to/.env"]
 ```
+
+Options:
+- `--output` or `-o`: Path to output file (default: stdout or RESULT_FILE from config)
+- `--environment` or `-e`: Path to .env configuration file
 
 Example output:
 
@@ -118,11 +122,35 @@ Transaction Report
 ```shell
 raiffeisenbank-transaction-report --output="/tmp/transaction_report.json" [--environment="path/to/.env"]
 ```
-(the default output is stdout)
 
->> Note: The Chosen `STATEMENT_LINE` must support statement frequency for `REPORT_SCOPE` 
+Options:
+- `--output` or `-o`: Path to output file (default: stdout or RESULT_FILE from config)
+- `--environment` or `-e`: Path to .env configuration file
 
-Example output:
+> **Note:** The chosen `STATEMENT_LINE` must support statement frequency for `REPORT_SCOPE`
+
+### Report Format
+
+All tools now output schema-compliant JSON reports with the following structure:
+
+```json
+{
+    "status": "success",
+    "timestamp": "2024-03-31T12:00:00+00:00",
+    "message": "Operation completed successfully",
+    "artifacts": {
+        "transactions": []
+    },
+    "metrics": {
+        "in_total": 34,
+        "out_total": 34,
+        "in_sum_total": 313035.22,
+        "out_sum_total": 347705.63
+    }
+}
+```
+
+Example output (legacy format):
 
 ```json
 {
@@ -233,7 +261,11 @@ API_DEBUG=True
 APP_DEBUG=True
 EASE_LOGGER=syslog|eventlog|console
 
-#Mailer specific:
+# Report file configuration (optional, applies to all tools):
+REPORT_FILE=/path/to/report.json
+RESULT_FILE=/path/to/result.json
+
+# Mailer specific:
 STATEMENTS_TO=statement@recipient.com
 STATEMENTS_FROM=email@address.com
 STATEMENTS_REPLYTO=email@address.com
@@ -276,10 +308,47 @@ See the full list of ready-to-run applications within the MultiFlexi platform on
 
 [![MultiFlexi App](https://github.com/VitexSoftware/MultiFlexi/blob/main/doc/multiflexi-app.svg)](https://www.multiflexi.eu/apps.php)
 
+Development
+-----------
+
+### Requirements
+
+- PHP 8.4 or later
+- Composer
+
+### Setup
+
+```bash
+# Install dependencies
+composer install
+```
+
+### Testing
+
+```bash
+# Run tests
+composer test
+
+# Lint code
+composer lint
+
+# Fix code style issues
+composer fix
+```
+
+### Code Quality
+
+The project follows PSR-12 coding standards and includes:
+- PHPUnit for testing
+- PHP CS Fixer for code formatting
+- PHPStan for static analysis
+
+All scripts must pass `php -l` syntax check before committing.
+
 Installation
 ------------
 
-The repository with packages for Debian & Ubuntu is availble:
+The repository with packages for Debian & Ubuntu is available:
 
 ```shell
 sudo apt install lsb-release wget apt-transport-https bzip2
