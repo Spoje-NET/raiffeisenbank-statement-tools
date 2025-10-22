@@ -48,23 +48,24 @@ if (ApiClient::checkCertificatePresence(Shared::cfg('CERT_FILE')) === false) {
 
     try {
         $apiResult = $apiInstance->getBalance($xRequestId, Shared::cfg('ACCOUNT_NUMBER'));
-        
+
         // Extract balance values for metrics
         $metrics = [
             'account_number' => $apiResult['numberPart2'] ?? '',
             'bank_code' => $apiResult['bankCode'] ?? '',
         ];
-        
+
         // Add balance metrics for each currency
         foreach ($apiResult['currencyFolders'] ?? [] as $folder) {
             $currency = $folder['currency'] ?? 'UNKNOWN';
+
             foreach ($folder['balances'] ?? [] as $balance) {
                 $balanceType = $balance['balanceType'] ?? 'UNKNOWN';
-                $key = strtolower($currency . '_' . $balanceType);
+                $key = strtolower($currency.'_'.$balanceType);
                 $metrics[$key] = $balance['value'] ?? 0;
             }
         }
-        
+
         $report = [
             'status' => 'success',
             'timestamp' => date('c'),

@@ -40,7 +40,7 @@
             "category": "Other"
         },
         "CERT_FILE": {
-            "type": "file",
+            "type": "file-path",
             "description": {
                 "en": "Path to RB Certificate file",
                 "cs": "Path to RB Certificate file"
