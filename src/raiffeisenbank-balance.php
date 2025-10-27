@@ -38,11 +38,63 @@ if (Shared::cfg('APP_DEBUG', false)) {
     $engine->logBanner();
 }
 
-if (ApiClient::checkCertificatePresence(Shared::cfg('CERT_FILE')) === false) {
-    $engine->addStatusMessage(sprintf(_('Certificate file %s problem'), Shared::cfg('CERT_FILE')), 'error');
-
+try {
+    if (ApiClient::checkCertificatePresence(Shared::cfg('CERT_FILE'), true) === false) {
+        throw new \Exception(sprintf(_('Certificate file %s is not accessible'), Shared::cfg('CERT_FILE')));
+    }
+    
+    // If file is readable, perform deeper certificate validation
+    $certFile = Shared::cfg('CERT_FILE');
+    $certValidation = null;
+    if (is_readable($certFile)) {
+        $certValidation = ApiClient::checkCertificate($certFile, Shared::cfg('CERT_PASS'));
+    }
+} catch (\Exception $certException) {
+    $certFile = Shared::cfg('CERT_FILE');
+    $certExists = file_exists($certFile);
+    $certPerms = $certExists ? decoct(fileperms($certFile) & 0777) : 'N/A';
+    $certReadable = $certExists ? is_readable($certFile) : false;
+    
+    $errorDetails = [
+        'problem' => $certException->getMessage(),
+        'certificate_file' => $certFile,
+        'file_exists' => $certExists,
+        'file_permissions' => $certPerms,
+        'file_readable' => $certReadable,
+    ];
+    
+    // Add certificate validation result if available
+    if (isset($certValidation)) {
+        $errorDetails['certificate_validation'] = $certValidation;
+    }
+    
+    $engine->addStatusMessage(sprintf(
+        _('Certificate error: %s | File: %s | Exists: %s | Permissions: %s | Readable: %s'),
+        $certException->getMessage(),
+        $certFile,
+        $certExists ? 'yes' : 'no',
+        $certPerms,
+        $certReadable ? 'yes' : 'no'
+    ), 'error');
+    
+    $report = [
+        'status' => 'error',
+        'timestamp' => date('c'),
+        'message' => $certException->getMessage(),
+        'artifacts' => [
+            'certificate_file' => $certFile,
+        ],
+        'metrics' => [
+            'certificate_exists' => $certExists,
+            'certificate_permissions' => $certPerms,
+            'certificate_readable' => $certReadable,
+        ],
+        'error_details' => $errorDetails,
+    ];
     $exitcode = 1;
-} else {
+}
+
+if ($exitcode === 0) {
     $apiInstance = new \VitexSoftware\Raiffeisenbank\PremiumAPI\GetAccountBalanceApi();
     $xRequestId = (string) time();
 
