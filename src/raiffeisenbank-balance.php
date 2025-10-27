@@ -144,12 +144,17 @@ if ($exitcode === 0) {
                 'error_code' => $exc->getCode(),
             ],
         ];
-        $exitcode = $exc->getCode();
+        $exitcode = (int) $exc->getCode();
 
         if (!$exitcode) {
             if (preg_match('/cURL error ([0-9]*):/', $errorMessage, $codeRaw)) {
                 $exitcode = (int) $codeRaw[1];
             }
+        }
+        
+        // Ensure non-zero exit code on errors
+        if ($exitcode === 0) {
+            $exitcode = 1;
         }
     } catch (\InvalidArgumentException $exc) {
         $report = [
@@ -167,4 +172,9 @@ if ($exitcode === 0) {
 $written = file_put_contents($destination, json_encode($report, Shared::cfg('DEBUG') ? \JSON_PRETTY_PRINT : 0));
 $engine->addStatusMessage(sprintf(_('Saving result to %s'), $destination), $written ? 'success' : 'error');
 
-exit($exitcode ?: ($written ? 0 : 2));
+// Exit with error code if there was an error, otherwise 0 on success or 2 if write failed
+if ($exitcode !== 0) {
+    exit($exitcode);
+}
+
+exit($written ? 0 : 2);

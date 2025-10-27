@@ -99,13 +99,16 @@ try {
     exit(1);
 }
 
+$exitcode = 0;
 try {
     $status = 'ok';
-    $exitcode = 0;
     $statements = $engine->getStatements(Shared::cfg('ACCOUNT_CURRENCY', 'CZK'), Shared::cfg('STATEMENT_LINE', 'MAIN'));
 } catch (\VitexSoftware\Raiffeisenbank\ApiException $exc) {
     $status = $exc->getCode().': error';
     $exitcode = (int) $exc->getCode();
+    if ($exitcode === 0) {
+        $exitcode = 1; // Ensure non-zero exit code on errors
+    }
 }
 
 if (empty($statements) === false) {
@@ -208,6 +211,9 @@ if (empty($statements) === false) {
         $reportFile = Shared::cfg('REPORT_FILE', 'statement_mail_report.json');
         $written = file_put_contents($reportFile, json_encode($report, Shared::cfg('DEBUG') ? \JSON_PRETTY_PRINT : 0));
         $engine->addStatusMessage(sprintf(_('Saving result to %s'), $reportFile), $written ? 'success' : 'error');
+        if ($exitcode === 0) {
+            $exitcode = 1; // Ensure non-zero exit code when no statements returned
+        }
     }
 } else {
     $report = [
@@ -221,6 +227,9 @@ if (empty($statements) === false) {
     $reportFile = Shared::cfg('REPORT_FILE', 'statement_mail_report.json');
     $written = file_put_contents($reportFile, json_encode($report, Shared::cfg('DEBUG') ? \JSON_PRETTY_PRINT : 0));
     $engine->addStatusMessage(sprintf(_('Saving result to %s'), $reportFile), $written ? 'success' : 'error');
+    if ($exitcode === 0) {
+        $exitcode = 1; // Ensure non-zero exit code when no statements available
+    }
 }
 
 exit($exitcode);

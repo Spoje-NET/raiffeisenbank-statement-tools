@@ -100,13 +100,16 @@ try {
 
 $engine->setScope(Shared::cfg('STATEMENT_SCOPE', 'last_month'));
 
+$exitcode = 0;
 try {
     $status = 'ok';
-    $exitcode = 0;
     $statements = $engine->getStatements(Shared::cfg('ACCOUNT_CURRENCY', 'CZK'), Shared::cfg('STATEMENT_LINE', 'MAIN'));
 } catch (\VitexSoftware\Raiffeisenbank\ApiException $exc) {
     $status = $exc->getCode().': error';
     $exitcode = (int) $exc->getCode();
+    if ($exitcode === 0) {
+        $exitcode = 1; // Ensure non-zero exit code on errors
+    }
 }
 
 if (empty($statements) === false) {
@@ -141,4 +144,9 @@ $reportFile = Shared::cfg('REPORT_FILE', 'statement_report.json');
 $written = file_put_contents($reportFile, json_encode($report, Shared::cfg('DEBUG') ? \JSON_PRETTY_PRINT : 0));
 $engine->addStatusMessage(sprintf(_('Saving result to %s'), $reportFile), $written ? 'success' : 'error');
 
-exit($exitcode ?: ($written ? 0 : 2));
+// Exit with error code if there was an error, otherwise 0 on success or 2 if write failed
+if ($exitcode !== 0) {
+    exit($exitcode);
+}
+
+exit($written ? 0 : 2);
