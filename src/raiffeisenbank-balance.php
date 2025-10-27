@@ -147,7 +147,10 @@ if ($exitcode === 0) {
         $exitcode = (int) $exc->getCode();
 
         if (!$exitcode) {
-            if (preg_match('/cURL error ([0-9]*):/', $errorMessage, $codeRaw)) {
+            // Try to extract HTTP status code from error message
+            if (preg_match('/\[(\d{3})\]/', $errorMessage, $matches)) {
+                $exitcode = (int) $matches[1];
+            } elseif (preg_match('/cURL error ([0-9]*):/', $errorMessage, $codeRaw)) {
                 $exitcode = (int) $codeRaw[1];
             }
         }

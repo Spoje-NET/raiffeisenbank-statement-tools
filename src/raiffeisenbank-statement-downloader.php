@@ -107,6 +107,12 @@ try {
 } catch (\VitexSoftware\Raiffeisenbank\ApiException $exc) {
     $status = $exc->getCode().': error';
     $exitcode = (int) $exc->getCode();
+    
+    // Try to extract HTTP status code from error message if getCode() returns 0
+    if ($exitcode === 0 && preg_match('/\[(\d{3})\]/', $exc->getMessage(), $matches)) {
+        $exitcode = (int) $matches[1];
+    }
+    
     if ($exitcode === 0) {
         $exitcode = 1; // Ensure non-zero exit code on errors
     }

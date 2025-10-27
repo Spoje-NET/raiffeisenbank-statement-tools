@@ -107,6 +107,12 @@ try {
 } catch (\VitexSoftware\Raiffeisenbank\ApiException $exc) {
     $status = $exc->getMessage();
     $exitcode = (int) $exc->getCode();
+    
+    // Try to extract HTTP status code from error message if getCode() returns 0
+    if ($exitcode === 0 && preg_match('/\[(\d{3})\]/', $status, $matches)) {
+        $exitcode = (int) $matches[1];
+    }
+    
     if ($exitcode === 0) {
         $exitcode = 1; // Ensure non-zero exit code on errors
     }
@@ -149,6 +155,15 @@ if (empty($statements) === false) {
         }
     } catch (\VitexSoftware\Raiffeisenbank\ApiException $exc) {
         $exitcode = (int) $exc->getCode();
+        
+        // Try to extract HTTP status code from error message if getCode() returns 0
+        if ($exitcode === 0 && preg_match('/\[(\d{3})\]/', $exc->getMessage(), $matches)) {
+            $exitcode = (int) $matches[1];
+        }
+        
+        if ($exitcode === 0) {
+            $exitcode = 1; // Ensure non-zero exit code on errors
+        }
         $payments['status'] = $exc->getMessage();
     }
 } else {
