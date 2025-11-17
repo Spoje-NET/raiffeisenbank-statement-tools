@@ -14,7 +14,7 @@
         "src/raiffeisenbank-statement-mailer.php"
     ],
     "require": {
-        "vitexsoftware/rbczpremiumapi": "^1.4"
+        "vitexsoftware/rbczpremiumapi": "^1.5"
     },
     "require-dev": {
         "phpunit/phpunit": "*",
