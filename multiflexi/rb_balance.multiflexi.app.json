@@ -1,6 +1,6 @@
 {
     "$schema": "https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.app.schema.json",
-    "schemaVersion": "3.0.0",
+    "schemaVersion": "3.1.0",
     "uuid": "491e066a-a47b-4266-99b9-ea21032fa6e2",
     "name": {
         "en": "RB Balance",
@@ -88,6 +88,32 @@
             "defval": "console|syslog",
             "required": false,
             "category": "Behavior"
+        }
+    },
+    "exitCodes": {
+        "0": {
+            "description": {
+                "en": "Success",
+                "cs": "Úspěch"
+            },
+            "severity": "success",
+            "retry": false
+        },
+        "1": {
+            "description": {
+                "en": "General error",
+                "cs": "Obecná chyba"
+            },
+            "severity": "error",
+            "retry": true
+        },
+        "4": {
+            "description": {
+                "en": "Application-specific error code 4",
+                "cs": "Aplikační chybový kód 4"
+            },
+            "severity": "error",
+            "retry": true
         }
     }
 }

@@ -23,14 +23,14 @@ require_once '../vendor/autoload.php';
 
 \define('APP_NAME', 'RaiffeisenBank Statement Mailer');
 
-if (\array_key_exists(1, $argv) && $argv[1] === '-h') {
+if (array_key_exists(1, $argv) && $argv[1] === '-h') {
     echo 'raiffeisenbank-statement-mailer [email recipient,recipient2,...] [format pdf/xml] [path/to/.env]';
     echo "\n";
 
     exit;
 }
 
-Shared::init(['CERT_FILE', 'CERT_PASS', 'XIBMCLIENTID', 'ACCOUNT_NUMBER'], \array_key_exists(3, $argv) ? $argv[3] : '../.env');
+Shared::init(['CERT_FILE', 'CERT_PASS', 'XIBMCLIENTID', 'ACCOUNT_NUMBER'], array_key_exists(3, $argv) ? $argv[3] : '../.env');
 $engine = new Statementor(Shared::cfg('ACCOUNT_NUMBER'));
 $engine->setScope(Shared::cfg('STATEMENT_SCOPE', 'yesterday'));
 
@@ -121,11 +121,11 @@ if (empty($statements) === false) {
     $downloaded = $engine->download(
         Shared::cfg('STATEMENTS_DIR', sys_get_temp_dir()),
         $statements,
-        \array_key_exists(2, $argv) ? $argv[2] : Shared::cfg('STATEMENT_FORMAT', 'pdf'),
+        array_key_exists(2, $argv) ? $argv[2] : Shared::cfg('STATEMENT_FORMAT', 'pdf'),
     );
 
     if ($downloaded) {
-        $recipient = \array_key_exists(1, $argv) ? $argv[1] : Shared::cfg('STATEMENTS_TO');
+        $recipient = array_key_exists(1, $argv) ? $argv[1] : Shared::cfg('STATEMENTS_TO');
 
         if (empty($recipient)) {
             fwrite(fopen('php://stderr', 'wb'), Shared::appName().': '._('No recipient provided! Check arguments or environment').\PHP_EOL);

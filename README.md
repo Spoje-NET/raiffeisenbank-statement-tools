@@ -363,3 +363,11 @@ See Also
 
 * [fiobank-statement-tools](https://github.com/Spoje-NET/fiobank-statement-tools)
 * [csas-statement-tools](https://github.com/VitexSoftware/csas-statement-tools)
+
+## Exit Codes
+
+Applications in this package use the following exit codes:
+
+- `0`: Success
+- `1`: General error
+- `4`: Application-specific error
