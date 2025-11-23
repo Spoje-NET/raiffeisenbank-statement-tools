@@ -1,119 +1,124 @@
 {
-    "$schema": "https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.app.schema.json",
-    "schemaVersion": "3.1.0",
-    "uuid": "491e066a-a47b-4266-99b9-ea21032fa6e2",
-    "name": {
-        "en": "RB Balance",
-        "cs": "RB Balance"
+  "$schema": "https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.app.schema.json",
+  "schemaVersion": "3.1.0",
+  "uuid": "491e066a-a47b-4266-99b9-ea21032fa6e2",
+  "name": {
+    "en": "RB Balance",
+    "cs": "Zůstatek RB"
+  },
+  "description": {
+    "en": "Raiffeisenbank Balance check",
+    "cs": "Kontrola zůstatku Raiffeisenbank"
+  },
+  "tags": ["RaiffeisenBank", "Balance", "Check", "Json"],
+  "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
+  "executable": "raiffeisenbank-balance",
+  "environment": {
+    "ACCOUNT_NUMBER": {
+      "type": "text",
+      "description": {
+        "en": "Bank Account Number",
+        "cs": "Číslo bankovního účtu"
+      },
+      "defval": "",
+      "required": true,
+      "category": "Other"
     },
-    "description": {
-        "en": "Raiffeisenbank Balance check",
-        "cs": "Raiffeisenbank Balance check"
+    "CERT_PASS": {
+      "type": "password",
+      "description": {
+        "en": "Certificate password",
+        "cs": "Heslo certifikátu"
+      },
+      "defval": "",
+      "required": true,
+      "category": "Other"
     },
-    "tags": [
-        "RaiffeisenBank",
-        "Balance",
-        "Check",
-        "Json"
-    ],
-    "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
-    "executable": "raiffeisenbank-balance",
-    "environment": {
-        "ACCOUNT_NUMBER": {
-            "type": "text",
-            "description": {
-                "en": "Bank Account Number",
-                "cs": "Bank Account Number"
-            },
-            "defval": "",
-            "required": true,
-            "category": "Other"
-        },
-        "CERT_PASS": {
-            "type": "password",
-            "description": {
-                "en": "Certificate password",
-                "cs": "Certificate password"
-            },
-            "defval": "",
-            "required": true,
-            "category": "Other"
-        },
-        "CERT_FILE": {
-            "type": "file-path",
-            "description": {
-                "en": "Path to RB Certificate file",
-                "cs": "Path to RB Certificate file"
-            },
-            "defval": "",
-            "required": true,
-            "category": "Other"
-        },
-        "XIBMCLIENTID": {
-            "type": "text",
-            "description": {
-                "en": "ClientID",
-                "cs": "ClientID"
-            },
-            "defval": "",
-            "required": true,
-            "category": "Other"
-        },
-        "RESULT_FILE": {
-            "type": "string",
-            "description": {
-                "en": "write output json data to",
-                "cs": "write output json data to"
-            },
-            "defval": "account_balance_{ACCOUNT_NUMBER}.json",
-            "required": false,
-            "category": "Other"
-        },
-        "ZABBIX_KEY": {
-            "type": "string",
-            "description": {
-                "en": "Default name for Zabbix Item key name",
-                "cs": "Default name for Zabbix Item key name"
-            },
-            "defval": "Raiff-Balance-{ACCOUNT_NUMBER}",
-            "required": false,
-            "category": "Other"
-        },
-        "EASE_LOGGER": {
-            "type": "string",
-            "description": {
-                "en": "write log messages using",
-                "cs": "write log messages using"
-            },
-            "defval": "console|syslog",
-            "required": false,
-            "category": "Behavior"
-        }
+    "CERT_FILE": {
+      "type": "file-path",
+      "description": {
+        "en": "Path to RB Certificate file",
+        "cs": "Cesta k souboru certifikátu RB"
+      },
+      "defval": "",
+      "required": true,
+      "category": "Other"
     },
-    "exitCodes": {
-        "0": {
-            "description": {
-                "en": "Success",
-                "cs": "Úspěch"
-            },
-            "severity": "success",
-            "retry": false
-        },
-        "1": {
-            "description": {
-                "en": "General error",
-                "cs": "Obecná chyba"
-            },
-            "severity": "error",
-            "retry": true
-        },
-        "4": {
-            "description": {
-                "en": "Application-specific error code 4",
-                "cs": "Aplikační chybový kód 4"
-            },
-            "severity": "error",
-            "retry": true
-        }
+    "XIBMCLIENTID": {
+      "type": "text",
+      "description": {
+        "en": "ClientID",
+        "cs": "ID klienta"
+      },
+      "defval": "",
+      "required": true,
+      "category": "Other"
+    },
+    "RESULT_FILE": {
+      "type": "string",
+      "description": {
+        "en": "write output json data to",
+        "cs": "uložit výstupní json data do"
+      },
+      "defval": "account_balance_{ACCOUNT_NUMBER}.json",
+      "required": false,
+      "category": "Other"
+    },
+    "ZABBIX_KEY": {
+      "type": "string",
+      "description": {
+        "en": "Default name for Zabbix Item key name",
+        "cs": "Výchozí název klíče položky Zabbix"
+      },
+      "defval": "Raiff-Balance-{ACCOUNT_NUMBER}",
+      "required": false,
+      "category": "Other"
+    },
+    "EASE_LOGGER": {
+      "type": "string",
+      "description": {
+        "en": "write log messages using",
+        "cs": "zapisovat zprávy do logu pomocí"
+      },
+      "defval": "console|syslog",
+      "required": false,
+      "category": "Behavior"
+    },
+    "RBAPI_RATE_LIMIT_JSON_FILE": {
+      "type": "string",
+      "description": {
+        "en": "write API rate limit file using",
+        "cs": "Zápis souboru s limity přístupů API"
+      },
+      "defval": "{MULTIFLEXI_TMP}/rbczpremiumapi_rates.json",
+      "required": false,
+      "category": "API"
     }
+  },
+  "exitCodes": {
+    "0": {
+      "description": {
+        "en": "Success",
+        "cs": "Úspěch"
+      },
+      "severity": "success",
+      "retry": false
+    },
+    "1": {
+      "description": {
+        "en": "General error",
+        "cs": "Obecná chyba"
+      },
+      "severity": "error",
+      "retry": true
+    },
+    "4": {
+      "description": {
+        "en": "Application-specific error code 4",
+        "cs": "Aplikační chybový kód 4"
+      },
+      "severity": "error",
+      "retry": true
+    }
+  }
 }
