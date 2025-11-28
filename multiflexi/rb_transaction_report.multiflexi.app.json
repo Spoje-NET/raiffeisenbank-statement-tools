@@ -1,163 +1,227 @@
 {
-  "$schema": "https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.app.schema.json",
-  "schemaVersion": "3.1.0",
-  "uuid": "97f30cf9-2d9e-4d91-ad65-9bdd8b4663cd",
-  "name": {
-    "en": "RB transaction report",
-    "cs": "RB přehled transakcí"
-  },
-  "description": {
-    "en": "Raiffeisenbank transaction report",
-    "cs": "Přehled transakcí Raiffeisenbank"
-  },
-  "tags": ["Bank", "RaiffeisenBank", "Transactions", "Check", "Json", "Report"],
-  "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
-  "executable": "raiffeisenbank-transaction-report",
-  "environment": {
-    "ACCOUNT_NUMBER": {
-      "type": "text",
-      "description": {
-        "en": "Bank Account Number",
-        "cs": "Číslo bankovního účtu"
-      },
-      "defval": "",
-      "required": true,
-      "category": "Other"
+    "$schema": "https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.app.schema.json",
+    "schemaVersion": "3.1.0",
+    "uuid": "97f30cf9-2d9e-4d91-ad65-9bdd8b4663cd",
+    "name": {
+        "en": "RB transaction report",
+        "cs": "RB přehled transakcí"
     },
-    "CERT_PASS": {
-      "type": "password",
-      "description": {
-        "en": "Certificate password",
-        "cs": "Heslo certifikátu"
-      },
-      "defval": "",
-      "required": true,
-      "category": "Other"
+    "description": {
+        "en": "Raiffeisenbank transaction report",
+        "cs": "Přehled transakcí Raiffeisenbank"
     },
-    "CERT_FILE": {
-      "type": "file-path",
-      "description": {
-        "en": "Path to RB Certificate file",
-        "cs": "Cesta k souboru certifikátu RB"
-      },
-      "defval": "",
-      "required": true,
-      "category": "Other"
+    "tags": ["Bank", "RaiffeisenBank", "Transactions", "Check", "Json", "Report"],
+    "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
+    "executable": "raiffeisenbank-transaction-report",
+    "environment": {
+        "ACCOUNT_NUMBER": {
+            "type": "text",
+            "description": {
+                "en": "Bank Account Number",
+                "cs": "Číslo bankovního účtu"
+            },
+            "defval": "",
+            "required": true,
+            "category": "Other"
+        },
+        "CERT_PASS": {
+            "type": "password",
+            "description": {
+                "en": "Certificate password",
+                "cs": "Heslo certifikátu"
+            },
+            "defval": "",
+            "required": true,
+            "category": "Other"
+        },
+        "CERT_FILE": {
+            "type": "file-path",
+            "description": {
+                "en": "Path to RB Certificate file",
+                "cs": "Cesta k souboru certifikátu RB"
+            },
+            "defval": "",
+            "required": true,
+            "category": "Other"
+        },
+        "REPORT_SCOPE": {
+            "type": "text",
+            "description": {
+                "en": "Time scope of transactions downloaded",
+                "cs": "Časový rozsah stahovaných transakcí"
+            },
+            "defval": "last_month",
+            "required": false,
+            "category": "Other"
+        },
+        "STATEMENT_LINE": {
+            "type": "set",
+            "description": {
+                "en": "Bank Statement line",
+                "cs": "Řádek bankovního výpisu"
+            },
+            "defval": "ADDITIONAL",
+            "hint": {
+                "en": "MAIN",
+                "cs": "HLAVNÍ"
+            },
+            "options": {
+                "MAIN": "Hlavní řádek výpisu",
+                "ADDITIONAL": "Doplňkový řádek výpisu"
+            },
+            "category": "Other"
+        },
+        "ACCOUNT_CURRENCY": {
+            "type": "text",
+            "description": {
+                "en": "for multicurrency accounts please specify one",
+                "cs": "U víceměnových účtů prosím zadejte jednu měnu"
+            },
+            "defval": "CZK",
+            "required": false,
+            "category": "Other"
+        },
+        "XIBMCLIENTID": {
+            "type": "text",
+            "description": {
+                "en": "ClientID",
+                "cs": "ID klienta"
+            },
+            "defval": "",
+            "required": true,
+            "category": "Other"
+        },
+        "RESULT_FILE": {
+            "type": "string",
+            "description": {
+                "en": "write output json data to",
+                "cs": "uložit výstupní json data do"
+            },
+            "defval": "transaction_report_{ACCOUNT_NUMBER}.json",
+            "required": false,
+            "category": "Other"
+        },
+        "ZABBIX_KEY": {
+            "type": "string",
+            "description": {
+                "en": "Default name for Zabbix Item key name",
+                "cs": "Výchozí název klíče položky Zabbix"
+            },
+            "defval": "Raiff-Balance-{ACCOUNT_NUMBER}",
+            "required": false,
+            "category": "Other"
+        },
+        "APP_DEBUG": {
+            "type": "bool",
+            "description": {
+                "en": "Show debug messages",
+                "cs": "Zobrazit ladicí zprávy"
+            },
+            "defval": "False",
+            "required": true,
+            "category": "Behavior"
+        },
+        "EASE_LOGGER": {
+            "type": "string",
+            "description": {
+                "en": "write log messages using",
+                "cs": "zapisovat zprávy do logu pomocí"
+            },
+            "defval": "console|syslog",
+            "required": false,
+            "category": "Behavior"
+        },
+        "RBAPI_RATE_LIMIT_JSON_FILE": {
+            "type": "string",
+            "description": {
+                "en": "write API rate limit file using",
+                "cs": "Zápis souboru s limity přístupů API"
+            },
+            "defval": "{MULTIFLEXI_TMP}/rbczpremiumapi_rates.json",
+            "required": false,
+            "category": "API"
+        }
     },
-    "REPORT_SCOPE": {
-      "type": "text",
-      "description": {
-        "en": "Time scope of transactions downloaded",
-        "cs": "Časový rozsah stahovaných transakcí"
-      },
-      "defval": "last_month",
-      "required": false,
-      "category": "Other"
-    },
-    "STATEMENT_LINE": {
-      "type": "set",
-      "description": {
-        "en": "Bank Statement line",
-        "cs": "Řádek bankovního výpisu"
-      },
-      "defval": "ADDITIONAL",
-      "hint": {
-        "en": "MAIN",
-        "cs": "HLAVNÍ"
-      },
-      "options": {
-        "MAIN": "Hlavní řádek výpisu",
-        "ADDITIONAL": "Doplňkový řádek výpisu"
-      },
-      "category": "Other"
-    },
-    "ACCOUNT_CURRENCY": {
-      "type": "text",
-      "description": {
-        "en": "for multicurrency accounts please specify one",
-        "cs": "U víceměnových účtů prosím zadejte jednu měnu"
-      },
-      "defval": "CZK",
-      "required": false,
-      "category": "Other"
-    },
-    "XIBMCLIENTID": {
-      "type": "text",
-      "description": {
-        "en": "ClientID",
-        "cs": "ID klienta"
-      },
-      "defval": "",
-      "required": true,
-      "category": "Other"
-    },
-    "RESULT_FILE": {
-      "type": "string",
-      "description": {
-        "en": "write output json data to",
-        "cs": "uložit výstupní json data do"
-      },
-      "defval": "transaction_report_{ACCOUNT_NUMBER}.json",
-      "required": false,
-      "category": "Other"
-    },
-    "ZABBIX_KEY": {
-      "type": "string",
-      "description": {
-        "en": "Default name for Zabbix Item key name",
-        "cs": "Výchozí název klíče položky Zabbix"
-      },
-      "defval": "Raiff-Balance-{ACCOUNT_NUMBER}",
-      "required": false,
-      "category": "Other"
-    },
-    "APP_DEBUG": {
-      "type": "bool",
-      "description": {
-        "en": "Show debug messages",
-        "cs": "Zobrazit ladicí zprávy"
-      },
-      "defval": "False",
-      "required": true,
-      "category": "Behavior"
-    },
-    "EASE_LOGGER": {
-      "type": "string",
-      "description": {
-        "en": "write log messages using",
-        "cs": "zapisovat zprávy do logu pomocí"
-      },
-      "defval": "console|syslog",
-      "required": false,
-      "category": "Behavior"
-    },
-    "RBAPI_RATE_LIMIT_JSON_FILE": {
-      "type": "string",
-      "description": {
-        "en": "write API rate limit file using",
-        "cs": "Zápis souboru s limity přístupů API"
-      },
-      "defval": "{MULTIFLEXI_TMP}/rbczpremiumapi_rates.json",
-      "required": false,
-      "category": "API"
+    "exitCodes": {
+        "0": {
+            "description": {
+                "en": "Success",
+                "cs": "Úspěšné dokončení"
+            },
+            "severity": "success",
+            "retry": false
+        },
+        "1": {
+            "description": {
+                "en": "General error",
+                "cs": "Obecná chyba"
+            },
+            "severity": "error",
+            "retry": true
+        },
+        "145": {
+            "description": {
+                "en": "Bad request, validation error.",
+                "cs": "Chybný požadavek, validační chyba."
+            },
+            "severity": "error",
+            "retry": false
+        },
+        "146": {
+            "description": {
+                "en": "Certificate is invalid.",
+                "cs": "Certifikát je neplatný."
+            },
+            "severity": "error",
+            "retry": false
+        },
+        "148": {
+            "description": {
+                "en": "No access rights to perform the operation.",
+                "cs": "Uživatel nemá práva k provedení operace."
+            },
+            "severity": "error",
+            "retry": false
+        },
+        "149": {
+            "description": {
+                "en": "Requested resource does not exist.",
+                "cs": "Požadovaný zdroj neexistuje."
+            },
+            "severity": "error",
+            "retry": false
+        },
+        "158": {
+            "description": {
+                "en": "Request payload too large.",
+                "cs": "Tělo požadavku je příliš velké."
+            },
+            "severity": "error",
+            "retry": false
+        },
+        "160": {
+            "description": {
+                "en": "Unsupported media type.",
+                "cs": "Nepodporovaný typ obsahu."
+            },
+            "severity": "error",
+            "retry": false
+        },
+        "174": {
+            "description": {
+                "en": "Too many requests. Rate limit exceeded.",
+                "cs": "Příliš mnoho požadavků. Limit překročen."
+            },
+            "severity": "warning",
+            "retry": true
+        },
+        "245": {
+            "description": {
+                "en": "Unexpected internal error.",
+                "cs": "Neočekávaná interní chyba."
+            },
+            "severity": "critical",
+            "retry": false
+        }
     }
-  },
-  "exitCodes": {
-    "0": {
-      "description": {
-        "en": "Success",
-        "cs": "Úspěch"
-      },
-      "severity": "success",
-      "retry": false
-    },
-    "1": {
-      "description": {
-        "en": "General error",
-        "cs": "Obecná chyba"
-      },
-      "severity": "error",
-      "retry": true
-    }
-  }
 }

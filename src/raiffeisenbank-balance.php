@@ -28,8 +28,8 @@ require_once '../vendor/autoload.php';
 $written = 0;
 $exitcode = 0;
 $options = getopt('o::e::', ['output::environment::']);
-Shared::init(['CERT_FILE', 'CERT_PASS', 'XIBMCLIENTID', 'ACCOUNT_NUMBER'], array_key_exists('environment', $options) ? $options['environment'] : '../.env');
-$destination = array_key_exists('output', $options) ? $options['output'] : Shared::cfg('RESULT_FILE', 'php://stdout');
+Shared::init(['CERT_FILE', 'CERT_PASS', 'XIBMCLIENTID', 'ACCOUNT_NUMBER'], \array_key_exists('environment', $options) ? $options['environment'] : '../.env');
+$destination = \array_key_exists('output', $options) ? $options['output'] : Shared::cfg('RESULT_FILE', 'php://stdout');
 
 $engine = new \Ease\Sand();
 $engine->setObjectName(Shared::cfg('ACCOUNT_NUMBER'));
@@ -42,19 +42,20 @@ try {
     if (ApiClient::checkCertificatePresence(Shared::cfg('CERT_FILE'), true) === false) {
         throw new \Exception(sprintf(_('Certificate file %s is not accessible'), Shared::cfg('CERT_FILE')));
     }
-    
+
     // If file is readable, perform deeper certificate validation
     $certFile = Shared::cfg('CERT_FILE');
     $certValidation = null;
+
     if (is_readable($certFile)) {
         $certValidation = ApiClient::checkCertificate($certFile, Shared::cfg('CERT_PASS'));
     }
 } catch (\Exception $certException) {
     $certFile = Shared::cfg('CERT_FILE');
     $certExists = file_exists($certFile);
-    $certPerms = $certExists ? decoct(fileperms($certFile) & 0777) : 'N/A';
+    $certPerms = $certExists ? decoct(fileperms($certFile) & 0o777) : 'N/A';
     $certReadable = $certExists ? is_readable($certFile) : false;
-    
+
     $errorDetails = [
         'problem' => $certException->getMessage(),
         'certificate_file' => $certFile,
@@ -62,21 +63,21 @@ try {
         'file_permissions' => $certPerms,
         'file_readable' => $certReadable,
     ];
-    
+
     // Add certificate validation result if available
     if (isset($certValidation)) {
         $errorDetails['certificate_validation'] = $certValidation;
     }
-    
+
     $engine->addStatusMessage(sprintf(
         _('Certificate error: %s | File: %s | Exists: %s | Permissions: %s | Readable: %s'),
         $certException->getMessage(),
         $certFile,
         $certExists ? 'yes' : 'no',
         $certPerms,
-        $certReadable ? 'yes' : 'no'
+        $certReadable ? 'yes' : 'no',
     ), 'error');
-    
+
     $report = [
         'status' => 'error',
         'timestamp' => date('c'),
@@ -154,7 +155,7 @@ if ($exitcode === 0) {
                 $exitcode = (int) $codeRaw[1];
             }
         }
-        
+
         // Ensure non-zero exit code on errors
         if ($exitcode === 0) {
             $exitcode = 1;

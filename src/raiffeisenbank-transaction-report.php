@@ -24,8 +24,8 @@ require_once '../vendor/autoload.php';
 \define('APP_NAME', 'RaiffeisenBank Statement Reporter');
 
 $options = getopt('o::e::', ['output::environment::']);
-Shared::init(['CERT_FILE', 'CERT_PASS', 'XIBMCLIENTID', 'ACCOUNT_NUMBER'], array_key_exists('environment', $options) ? $options['environment'] : '../.env');
-$destination = array_key_exists('output', $options) ? $options['output'] : Shared::cfg('RESULT_FILE', 'php://stdout');
+Shared::init(['CERT_FILE', 'CERT_PASS', 'XIBMCLIENTID', 'ACCOUNT_NUMBER'], \array_key_exists('environment', $options) ? $options['environment'] : '../.env');
+$destination = \array_key_exists('output', $options) ? $options['output'] : Shared::cfg('RESULT_FILE', 'php://stdout');
 
 $engine = new Statementor(Shared::cfg('ACCOUNT_NUMBER'));
 
@@ -37,19 +37,20 @@ try {
     if (ApiClient::checkCertificatePresence(Shared::cfg('CERT_FILE'), true) === false) {
         throw new \Exception(sprintf(_('Certificate file %s is not accessible'), Shared::cfg('CERT_FILE')));
     }
-    
+
     // If file is readable, perform deeper certificate validation
     $certFile = Shared::cfg('CERT_FILE');
     $certValidation = null;
+
     if (is_readable($certFile)) {
         $certValidation = ApiClient::checkCertificate($certFile, Shared::cfg('CERT_PASS'));
     }
 } catch (\Exception $certException) {
     $certFile = Shared::cfg('CERT_FILE');
     $certExists = file_exists($certFile);
-    $certPerms = $certExists ? decoct(fileperms($certFile) & 0777) : 'N/A';
+    $certPerms = $certExists ? decoct(fileperms($certFile) & 0o777) : 'N/A';
     $certReadable = $certExists ? is_readable($certFile) : false;
-    
+
     $errorDetails = [
         'problem' => $certException->getMessage(),
         'certificate_file' => $certFile,
@@ -57,21 +58,21 @@ try {
         'file_permissions' => $certPerms,
         'file_readable' => $certReadable,
     ];
-    
+
     // Add certificate validation result if available
     if (isset($certValidation)) {
         $errorDetails['certificate_validation'] = $certValidation;
     }
-    
+
     $engine->addStatusMessage(sprintf(
         _('Certificate error: %s | File: %s | Exists: %s | Permissions: %s | Readable: %s'),
         $certException->getMessage(),
         $certFile,
         $certExists ? 'yes' : 'no',
         $certPerms,
-        $certReadable ? 'yes' : 'no'
+        $certReadable ? 'yes' : 'no',
     ), 'error');
-    
+
     // Schema-compliant error report
     $report = [
         'status' => 'error',
@@ -87,10 +88,10 @@ try {
         ],
         'error_details' => $errorDetails,
     ];
-    
+
     $written = file_put_contents($destination, json_encode($report, Shared::cfg('DEBUG') ? \JSON_PRETTY_PRINT : 0));
     $engine->addStatusMessage(sprintf(_('Saving error report to %s'), $destination), $written ? 'success' : 'error');
-    
+
     exit(1);
 }
 
@@ -101,21 +102,23 @@ if (Shared::cfg('APP_DEBUG', false)) {
 }
 
 $exitcode = 0;
+
 try {
     $status = 'ok';
     $statements = $engine->getStatements(Shared::cfg('ACCOUNT_CURRENCY', 'CZK'), Shared::cfg('STATEMENT_LINE', 'ADDITIONAL'));
 } catch (\VitexSoftware\Raiffeisenbank\ApiException $exc) {
     $status = $exc->getMessage();
     $exitcode = (int) $exc->getCode();
-    
+
     // Try to extract HTTP status code from error message if getCode() returns 0
     if ($exitcode === 0 && preg_match('/\[(\d{3})\]/', $status, $matches)) {
         $exitcode = (int) $matches[1];
     }
-    
+
     if ($exitcode === 0) {
         $exitcode = 1; // Ensure non-zero exit code on errors
     }
+
     $statements = [];
 }
 
@@ -143,7 +146,7 @@ if (empty($statements) === false) {
 
             $payments['iban'] = $statementArray['BkToCstmrStmt']['Stmt']['Acct']['Id']['IBAN'];
 
-            $entries = (array_key_exists('Ntry', $statementArray['BkToCstmrStmt']['Stmt']) ? (array_keys($statementArray['BkToCstmrStmt']['Stmt']['Ntry'])[0] === 0 ? $statementArray['BkToCstmrStmt']['Stmt']['Ntry'] : [$statementArray['BkToCstmrStmt']['Stmt']['Ntry']]) : []);
+            $entries = (\array_key_exists('Ntry', $statementArray['BkToCstmrStmt']['Stmt']) ? (array_keys($statementArray['BkToCstmrStmt']['Stmt']['Ntry'])[0] === 0 ? $statementArray['BkToCstmrStmt']['Stmt']['Ntry'] : [$statementArray['BkToCstmrStmt']['Stmt']['Ntry']]) : []);
 
             foreach ($entries as $payment) {
                 $payments[$payment['CdtDbtInd'] === 'CRDT' ? 'in' : 'out'][$payment['BookgDt']['DtTm']] = $payment['Amt'];
@@ -155,15 +158,16 @@ if (empty($statements) === false) {
         }
     } catch (\VitexSoftware\Raiffeisenbank\ApiException $exc) {
         $exitcode = (int) $exc->getCode();
-        
+
         // Try to extract HTTP status code from error message if getCode() returns 0
         if ($exitcode === 0 && preg_match('/\[(\d{3})\]/', $exc->getMessage(), $matches)) {
             $exitcode = (int) $matches[1];
         }
-        
+
         if ($exitcode === 0) {
             $exitcode = 1; // Ensure non-zero exit code on errors
         }
+
         $payments['status'] = $exc->getMessage();
     }
 } else {
