@@ -1,240 +1,244 @@
 {
-    "$schema": "https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.app.schema.json",
-    "schemaVersion": "3.1.0",
-    "uuid": "b50fe50c-4dab-419e-815e-dcd95bbeb29e",
-    "name": {
-        "en": "RB statement mailer",
-        "cs": "Posílač výpisů RB"
+  "$schema": "https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.app.schema.json",
+  "schemaVersion": "3.2.1",
+  "uuid": "b50fe50c-4dab-419e-815e-dcd95bbeb29e",
+  "name": {
+    "en": "RB statement mailer",
+    "cs": "Posílač výpisů RB"
+  },
+  "description": {
+    "en": "Download Raiffeisenbank statements in given format and send it via email",
+    "cs": "Stáhněte výpisy Raiffeisenbank ve zvoleném formátu a odešlete je e-mailem"
+  },
+  "tags": [
+    "RaiffeisenBank",
+    "Mail",
+    "Statements"
+  ],
+  "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
+  "executable": "raiffeisenbank-statement-mailer",
+  "environment": {
+    "ACCOUNT_NUMBER": {
+      "type": "string",
+      "description": {
+        "en": "Bank Account Number",
+        "cs": "Číslo bankovního účtu"
+      },
+      "defval": "",
+      "required": true,
+      "category": "Other"
     },
-    "description": {
-        "en": "Download Raiffeisenbank statements in given format and send it via email",
-        "cs": "Stáhněte výpisy Raiffeisenbank ve zvoleném formátu a odešlete je e-mailem"
+    "CERT_PASS": {
+      "type": "password",
+      "description": {
+        "en": "Certificate password",
+        "cs": "Heslo certifikátu"
+      },
+      "defval": "",
+      "required": true,
+      "category": "Other"
     },
-    "tags": ["RaiffeisenBank", "Mail", "Statements"],
-    "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
-    "executable": "raiffeisenbank-statement-mailer",
-    "environment": {
-        "ACCOUNT_NUMBER": {
-            "type": "text",
-            "description": {
-                "en": "Bank Account Number",
-                "cs": "Číslo bankovního účtu"
-            },
-            "defval": "",
-            "required": true,
-            "category": "Other"
-        },
-        "CERT_PASS": {
-            "type": "password",
-            "description": {
-                "en": "Certificate password",
-                "cs": "Heslo certifikátu"
-            },
-            "defval": "",
-            "required": true,
-            "category": "Other"
-        },
-        "CERT_FILE": {
-            "type": "file-path",
-            "description": {
-                "en": "Path to RB Certificate file",
-                "cs": "Cesta k souboru certifikátu RB"
-            },
-            "defval": "",
-            "required": true,
-            "category": "Other"
-        },
-        "STATEMENT_SCOPE": {
-            "type": "text",
-            "description": {
-                "en": "Time scope of transactions downloaded",
-                "cs": "Časový rozsah stahovaných transakcí"
-            },
-            "defval": "last_month",
-            "required": true,
-            "category": "Other"
-        },
-        "XIBMCLIENTID": {
-            "type": "text",
-            "description": {
-                "en": "ClientID",
-                "cs": "ID klienta"
-            },
-            "defval": "",
-            "required": true,
-            "category": "Other"
-        },
-        "STATEMENT_FORMAT": {
-            "type": "text",
-            "description": {
-                "en": "pdf or xml",
-                "cs": "pdf nebo xml"
-            },
-            "defval": "pdf",
-            "required": true,
-            "category": "Other"
-        },
-        "STATEMENT_LINE": {
-            "type": "text",
-            "description": {
-                "en": "Statement line can be MAIN or ADDITIONAL",
-                "cs": "Řádek výpisu může být MAIN nebo ADDITIONAL"
-            },
-            "defval": "MAIN",
-            "required": false,
-            "category": "Other"
-        },
-        "ACCOUNT_CURRENCY": {
-            "type": "text",
-            "description": {
-                "en": "for multicurrency accounts please specify one",
-                "cs": "U víceměnových účtů prosím zadejte jednu měnu"
-            },
-            "defval": "CZK",
-            "required": false,
-            "category": "Other"
-        },
-        "STATEMENTS_DIR": {
-            "type": "string",
-            "description": {
-                "en": "Time scope of transactions downloaded",
-                "cs": "Časový rozsah stahovaných transakcí"
-            },
-            "defval": "./",
-            "required": false,
-            "category": "Other"
-        },
-        "STATEMENTS_TO": {
-            "type": "email",
-            "description": {
-                "en": "Recipient's email address",
-                "cs": "E-mailová adresa příjemce"
-            },
-            "defval": "",
-            "required": true,
-            "category": "Other"
-        },
-        "STATEMENTS_FROM": {
-            "type": "email",
-            "description": {
-                "en": "Sender's email address",
-                "cs": "E-mailová adresa odesílatele"
-            },
-            "defval": "",
-            "required": false,
-            "category": "Other"
-        },
-        "STATEMENTS_REPLYTO": {
-            "type": "email",
-            "description": {
-                "en": "Reply-To email address",
-                "cs": "E-mailová adresa pro odpověď"
-            },
-            "defval": "",
-            "required": false,
-            "category": "Other"
-        },
-        "EASE_LOGGER": {
-            "type": "string",
-            "description": {
-                "en": "write log messages using",
-                "cs": "zapisovat zprávy do logu pomocí"
-            },
-            "defval": "console|syslog",
-            "required": false,
-            "category": "Behavior"
-        },
-        "RBAPI_RATE_LIMIT_JSON_FILE": {
-            "type": "string",
-            "description": {
-                "en": "write API rate limit file using",
-                "cs": "Zápis souboru s limity přístupů API"
-            },
-            "defval": "{MULTIFLEXI_TMP}/rbczpremiumapi_rates.json",
-            "required": false,
-            "category": "API"
-        }
+    "CERT_FILE": {
+      "type": "file-path",
+      "description": {
+        "en": "Path to RB Certificate file",
+        "cs": "Cesta k souboru certifikátu RB"
+      },
+      "defval": "",
+      "required": true,
+      "category": "Other"
     },
-    "exitCodes": {
-        "0": {
-            "description": {
-                "en": "Success",
-                "cs": "Úspěšné dokončení"
-            },
-            "severity": "success",
-            "retry": false
-        },
-        "1": {
-            "description": {
-                "en": "General error",
-                "cs": "Obecná chyba"
-            },
-            "severity": "error",
-            "retry": true
-        },
-        "145": {
-            "description": {
-                "en": "Bad request, validation error.",
-                "cs": "Chybný požadavek, validační chyba."
-            },
-            "severity": "error",
-            "retry": false
-        },
-        "146": {
-            "description": {
-                "en": "Certificate is invalid.",
-                "cs": "Certifikát je neplatný."
-            },
-            "severity": "error",
-            "retry": false
-        },
-        "148": {
-            "description": {
-                "en": "No access rights to perform the operation.",
-                "cs": "Uživatel nemá práva k provedení operace."
-            },
-            "severity": "error",
-            "retry": false
-        },
-        "149": {
-            "description": {
-                "en": "Requested resource does not exist.",
-                "cs": "Požadovaný zdroj neexistuje."
-            },
-            "severity": "error",
-            "retry": false
-        },
-        "158": {
-            "description": {
-                "en": "Request payload too large.",
-                "cs": "Tělo požadavku je příliš velké."
-            },
-            "severity": "error",
-            "retry": false
-        },
-        "160": {
-            "description": {
-                "en": "Unsupported media type.",
-                "cs": "Nepodporovaný typ obsahu."
-            },
-            "severity": "error",
-            "retry": false
-        },
-        "174": {
-            "description": {
-                "en": "Too many requests. Rate limit exceeded.",
-                "cs": "Příliš mnoho požadavků. Limit překročen."
-            },
-            "severity": "warning",
-            "retry": true
-        },
-        "245": {
-            "description": {
-                "en": "Unexpected internal error.",
-                "cs": "Neočekávaná interní chyba."
-            },
-            "severity": "critical",
-            "retry": false
-        }
+    "STATEMENT_SCOPE": {
+      "type": "string",
+      "description": {
+        "en": "Time scope of transactions downloaded",
+        "cs": "Časový rozsah stahovaných transakcí"
+      },
+      "defval": "last_month",
+      "required": true,
+      "category": "Other"
+    },
+    "XIBMCLIENTID": {
+      "type": "string",
+      "description": {
+        "en": "ClientID",
+        "cs": "ID klienta"
+      },
+      "defval": "",
+      "required": true,
+      "category": "Other"
+    },
+    "STATEMENT_FORMAT": {
+      "type": "string",
+      "description": {
+        "en": "pdf or xml",
+        "cs": "pdf nebo xml"
+      },
+      "defval": "pdf",
+      "required": true,
+      "category": "Other"
+    },
+    "STATEMENT_LINE": {
+      "type": "string",
+      "description": {
+        "en": "Statement line can be MAIN or ADDITIONAL",
+        "cs": "Řádek výpisu může být MAIN nebo ADDITIONAL"
+      },
+      "defval": "MAIN",
+      "required": false,
+      "category": "Other"
+    },
+    "ACCOUNT_CURRENCY": {
+      "type": "string",
+      "description": {
+        "en": "for multicurrency accounts please specify one",
+        "cs": "U víceměnových účtů prosím zadejte jednu měnu"
+      },
+      "defval": "CZK",
+      "required": false,
+      "category": "Other"
+    },
+    "STATEMENTS_DIR": {
+      "type": "string",
+      "description": {
+        "en": "Time scope of transactions downloaded",
+        "cs": "Časový rozsah stahovaných transakcí"
+      },
+      "defval": "./",
+      "required": false,
+      "category": "Other"
+    },
+    "STATEMENTS_TO": {
+      "type": "email",
+      "description": {
+        "en": "Recipient's email address",
+        "cs": "E-mailová adresa příjemce"
+      },
+      "defval": "",
+      "required": true,
+      "category": "Other"
+    },
+    "STATEMENTS_FROM": {
+      "type": "email",
+      "description": {
+        "en": "Sender's email address",
+        "cs": "E-mailová adresa odesílatele"
+      },
+      "defval": "",
+      "required": false,
+      "category": "Other"
+    },
+    "STATEMENTS_REPLYTO": {
+      "type": "email",
+      "description": {
+        "en": "Reply-To email address",
+        "cs": "E-mailová adresa pro odpověď"
+      },
+      "defval": "",
+      "required": false,
+      "category": "Other"
+    },
+    "EASE_LOGGER": {
+      "type": "string",
+      "description": {
+        "en": "write log messages using",
+        "cs": "zapisovat zprávy do logu pomocí"
+      },
+      "defval": "console|syslog",
+      "required": false,
+      "category": "Behavior"
+    },
+    "RBAPI_RATE_LIMIT_JSON_FILE": {
+      "type": "string",
+      "description": {
+        "en": "write API rate limit file using",
+        "cs": "Zápis souboru s limity přístupů API"
+      },
+      "defval": "{MULTIFLEXI_TMP}/rbczpremiumapi_rates.json",
+      "required": false,
+      "category": "API"
     }
+  },
+  "exitCodes": {
+    "0": {
+      "description": {
+        "en": "Success",
+        "cs": "Úspěšné dokončení"
+      },
+      "severity": "success",
+      "retry": false
+    },
+    "1": {
+      "description": {
+        "en": "General error",
+        "cs": "Obecná chyba"
+      },
+      "severity": "error",
+      "retry": true
+    },
+    "145": {
+      "description": {
+        "en": "Bad request, validation error.",
+        "cs": "Chybný požadavek, validační chyba."
+      },
+      "severity": "error",
+      "retry": false
+    },
+    "146": {
+      "description": {
+        "en": "Certificate is invalid.",
+        "cs": "Certifikát je neplatný."
+      },
+      "severity": "error",
+      "retry": false
+    },
+    "148": {
+      "description": {
+        "en": "No access rights to perform the operation.",
+        "cs": "Uživatel nemá práva k provedení operace."
+      },
+      "severity": "error",
+      "retry": false
+    },
+    "149": {
+      "description": {
+        "en": "Requested resource does not exist.",
+        "cs": "Požadovaný zdroj neexistuje."
+      },
+      "severity": "error",
+      "retry": false
+    },
+    "158": {
+      "description": {
+        "en": "Request payload too large.",
+        "cs": "Tělo požadavku je příliš velké."
+      },
+      "severity": "error",
+      "retry": false
+    },
+    "160": {
+      "description": {
+        "en": "Unsupported media type.",
+        "cs": "Nepodporovaný typ obsahu."
+      },
+      "severity": "error",
+      "retry": false
+    },
+    "174": {
+      "description": {
+        "en": "Too many requests. Rate limit exceeded.",
+        "cs": "Příliš mnoho požadavků. Limit překročen."
+      },
+      "severity": "warning",
+      "retry": true
+    },
+    "245": {
+      "description": {
+        "en": "Unexpected internal error.",
+        "cs": "Neočekávaná interní chyba."
+      },
+      "severity": "critical",
+      "retry": false
+    }
+  }
 }
