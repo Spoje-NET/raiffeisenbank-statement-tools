@@ -17,6 +17,6 @@ Description: Download your Raiffeisen Bank Statements
 Package: multiflexi-raiffeisenbank-statement-tools
 Architecture: all
 Replaces: multiflexi-raiffeisenbank-statement-downloader
-Depends: raiffeisenbank-statement-tools, multiflexi
+Depends: raiffeisenbank-statement-tools, multiflexi-cli
 Description: Raiffeisen Bank statement tools to MultiFlexi
  Allow use of Raiffeisen Bank statement tools in MultiFlexi environment
