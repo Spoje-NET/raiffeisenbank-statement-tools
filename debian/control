@@ -2,13 +2,13 @@ Source: raiffeisenbank-statement-tools
 Section: unknown
 Priority: optional
 Maintainer: Vítězslav Dvořák <info@vitexsoftware.cz>
-Build-Depends: debhelper-compat (= 12), jq, moreutils
+Build-Depends: debhelper-compat (= 13), pkg-php-tools, jq, moreutils
 Standards-Version: 4.5.0
 Homepage: https://github.com/VitexSoftware/raiffeisenbank-statement-tools
 
 Package: raiffeisenbank-statement-tools
 Architecture: all
-Depends: ${misc:Depends}, php-vitexsoftware-rbczpremiumapi (>=1.4)
+Depends: ${misc:Depends}, ${phpcomposer:Debian-require}
 Suggests: multiflexi
 Replaces: raiffeisenbank-statement-downloader
 Description: Download your Raiffeisen Bank Statements

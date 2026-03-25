@@ -1,6 +1,5 @@
-debian/conf/composer.json       usr/lib/raiffeisenbank-statement-tools/
-src/*			        usr/lib/raiffeisenbank-statement-tools/
-#src/SpojeNet/*                 usr/lib/raiffeisenbank-statement-tools/SpojeNet/
+debian/autoload.php             usr/share/php/raiffeisenbank-statement-tools/
+src/*			                usr/share/raiffeisenbank-statement-tools/
 bin/*                           usr/bin/
 .env.example                    usr/share/doc/raiffeisenbank-statement-tools
 io.github.spoje_net.raiffeisenbank_statement_tools.metainfo.xml /usr/share/metainfo/
