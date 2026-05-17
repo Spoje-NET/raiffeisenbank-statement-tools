@@ -13,6 +13,7 @@
   <categories>
     <category>Utility</category>
   </categories>
+  <icon type="stock">raiffeisenbank-statement-downloader</icon>
   <url type="homepage">https://github.com/Spoje-NET/raiffeisenbank-statement-tools</url>
   <url type="bugtracker">https://github.com/Spoje-NET/raiffeisenbank-statement-tools/issues</url>
   <developer id="io.github.spoje_net">

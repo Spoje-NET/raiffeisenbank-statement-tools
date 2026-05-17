@@ -2,5 +2,5 @@ debian/autoload.php             usr/share/php/raiffeisenbank-statement-tools/
 src/*			                usr/share/raiffeisenbank-statement-tools/
 bin/*                           usr/bin/
 .env.example                    usr/share/doc/raiffeisenbank-statement-tools
-io.github.spoje_net.raiffeisenbank_statement_tools.metainfo.xml /usr/share/metainfo/
+debian/io.github.spoje_net.raiffeisenbank_statement_tools.metainfo.xml /usr/share/metainfo/
 raiffeisenbank-statement-downloader.svg            /usr/share/icons/hicolor/scalable/apps/
