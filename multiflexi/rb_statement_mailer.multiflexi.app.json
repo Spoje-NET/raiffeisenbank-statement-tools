@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.app.schema.json",
-  "schemaVersion": "3.2.1",
+  "schemaVersion": "3.4.0",
   "uuid": "b50fe50c-4dab-419e-815e-dcd95bbeb29e",
   "name": {
     "en": "RB statement mailer",
@@ -17,6 +17,19 @@
   ],
   "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
   "executable": "raiffeisenbank-statement-mailer",
+  "events": {
+    "consumes": {
+      "bank.statement.downloaded": {
+        "description": "A bank statement file was downloaded",
+        "format": "file"
+      }
+    },
+    "emits": {
+      "bank.statement.mailed": {
+        "description": "A bank statement was emailed"
+      }
+    }
+  },
   "environment": {
     "ACCOUNT_NUMBER": {
       "type": "string",

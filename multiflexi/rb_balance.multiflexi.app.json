@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.app.schema.json",
-  "schemaVersion": "3.2.1",
+  "schemaVersion": "3.4.0",
   "uuid": "491e066a-a47b-4266-99b9-ea21032fa6e2",
   "name": {
     "en": "RB Balance",
@@ -18,6 +18,13 @@
   ],
   "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
   "executable": "raiffeisenbank-balance",
+  "events": {
+    "emits": {
+      "bank.balance.checked": {
+        "description": "An account balance was retrieved"
+      }
+    }
+  },
   "environment": {
     "ACCOUNT_NUMBER": {
       "type": "string",

@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/VitexSoftware/php-vitexsoftware-multiflexi-core/refs/heads/main/multiflexi.app.schema.json",
-  "schemaVersion": "3.2.1",
+  "schemaVersion": "3.4.0",
   "uuid": "97f30cf9-2d9e-4d91-ad65-9bdd8b4663cd",
   "name": {
     "en": "RB transaction report",
@@ -20,6 +20,19 @@
   ],
   "homepage": "https://github.com/Spoje-NET/raiffeisenbank-statement-tools",
   "executable": "raiffeisenbank-transaction-report",
+  "events": {
+    "consumes": {
+      "bank.statement.downloaded": {
+        "description": "A bank statement file was downloaded",
+        "format": "file"
+      }
+    },
+    "emits": {
+      "bank.transaction.reported": {
+        "description": "A bank transaction report was produced"
+      }
+    }
+  },
   "environment": {
     "ACCOUNT_NUMBER": {
       "type": "string",
