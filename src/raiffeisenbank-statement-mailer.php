@@ -117,6 +117,10 @@ try {
     if ($exitcode === 0) {
         $exitcode = 1; // Ensure non-zero exit code on errors
     }
+
+    if ($exitcode === 429) {
+        $exitcode = 174; // "Too many requests. Rate limit exceeded." per the .multiflexi.app.json manifest
+    }
 }
 
 if (empty($statements) === false) {
