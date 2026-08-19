@@ -1,4 +1,4 @@
-# WARP.md - Working AI Reference for raiffeisenbank-statement-tools
+# AGENTS.md - Working AI Reference for raiffeisenbank-statement-tools
 
 ## Project Overview
 **Type**: PHP Project/Debian Package
